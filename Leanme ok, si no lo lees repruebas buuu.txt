@@ -1,0 +1,15 @@
+Holaa, aquí les dejo una pequeña guía de mas o menos como funciona la conexión con la base de datos.
+
+Primero en el proyecto esta un form con diseño ya para cargar datos a la base de datos, con esto se van dar cuenta que si funciona con su base de datos.
+
+Tenemos de igual manera un BDConexion.cs, eso abrirá la conexión con sql, es importante que cambien los valores en este archivo para que funcione con su base de datos, ¿Qué van a cambiar?, Initial Catalog=BD_MAD, en vez de BD_MAD van a poner el nombre de su base de datos y Data Source=DESKTOP-PC9LLTV\\SQLEXPRESS en lugar de DESKTOP-PC9LLTV\\SQLEXPRESS, van a poner la instancia de sql que están usando, si no saben cual es el nombre de su instancia, cada que abren sql server se las dice antes de hacer la conexión. 
+
+Luego tenemos las entidades y el DAO, en la carpeta que dice entidad, van a declarar todos los atributos de su entidad en una clase, (como el ejemplo de usuario), ¿para que?, para que este pueda recibir los datos y enviarlos a la base de datos, aquí esto cambiara dependiendo sus entidades que tengan en su modelo, será la cantidad de clases que van a realizar.
+
+De igual manera tenemos el DAO de usuario, esto lo que se encarga es de realzar las llamadas de la clase y ejecutarlas como query hacia la base de datos
+
+cada que estas se llamen realizaran los queries que esten de refrencias en la clase, por ejemplo, lo que hace Insertar usuario es ejecutar un stored procedure para insertar un usuario en la base de datos, esto facilmente lo pueden cambiar por un Insert, todo lo que este " " entre esas comillas es la sentencia que se va a ejecutar tomen en cuenta la estructura de como estan echos los inserts para que puedan hacer bien la sentecia del querie y el como van a agarra los datos del form.
+
+
+
+
