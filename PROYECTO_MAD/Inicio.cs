@@ -119,7 +119,7 @@ namespace PROYECTO_MAD
         {
             if (ValidarPermiso("menuclientes"))
             {
-                AbrirForm(new frmClientes());
+                AbrirForm(new frmClientes(usuarioActual));
 
             }
             else

@@ -76,6 +76,7 @@ namespace PROYECTO_MAD
             txtContra.Enabled = true;
             txtConfirmarcontra.Enabled = true;
             txtNomina.Enabled = true;
+            txtCorreo.Enabled = true;
 
             txtNombre.Focus();
         }
@@ -171,15 +172,14 @@ namespace PROYECTO_MAD
                 domicilio.Numero = numero;
                 domicilio.CodigoPostal = codigoPostal;
 
-                // ID es 0 porque es nuevo y se necesita para usar guardar domicilio en el DAO
                 domicilio.IdDomicilio = 0;
 
-                // --- 3. Validarcampos ---
+                // Validaciones
                 if (string.IsNullOrEmpty(empleado.Nombre) || string.IsNullOrEmpty(empleado.Apellidos) ||
                     string.IsNullOrEmpty(empleado.Correo) || string.IsNullOrEmpty(empleado.NumeroNomina) ||
                     string.IsNullOrEmpty(empleado.Telefono) || string.IsNullOrEmpty(empleado.Contrasenia))
                 {
-                    MessageBox.Show("Por favor rellene todos los campos.", "Datos Incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Por favor ingrese todos los datos.", "Datos Incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -222,26 +222,23 @@ namespace PROYECTO_MAD
                         return;
                     }
                 }
-                // --- 4. Intentar Guardar ---
+
                 try
                 {
                     UsuarioN negocio = new UsuarioN();
 
-                    // 4.1 Validar si ya existe (Correo o Nómina)
                     if (negocio.ExisteUsuario(empleado.Correo, empleado.NumeroNomina))
                     {
                         MessageBox.Show("Ya existe un empleado con ese Correo o Número de Nómina.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    // 4.2 Guardar el Domicilio
                     int? idDomicilioGuardado = null;
                     if (domicilio.IdDomicilio == 0)
                     { 
                         idDomicilioGuardado = DomicilioDAO.GuardarDomicilio(domicilio);
                     }
 
-                    // 4.3 Guardar el Usuario (pasando el ID del domicilio y el ID del creador)
                     int idUsuarioLogueado = this.usuarioLogueado.IdUsuario;
 
                     if (idEmpleadoSeleccionado == null)
@@ -250,7 +247,6 @@ namespace PROYECTO_MAD
                         MessageBox.Show("Empleado agregado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    // 4.5 Refrescar y Limpiar
                     CargarEmpleados();
                     LimpiarFormulario();
                 }
@@ -329,6 +325,7 @@ namespace PROYECTO_MAD
 
                 // Guarda el ID del usuario seleccionado
                 idEmpleadoSeleccionado = empleadoSeleccionado.IdUsuario;
+                txtCorreo.Enabled = false;
                 txtNomina.Enabled = false;
                 txtContra.Enabled = false;
                 txtConfirmarcontra.Enabled = false;

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BDConexion.cs" />
+    <Compile Include="DAO\ClienteDAO.cs" />
     <Compile Include="DAO\DomicilioDAO.cs" />
     <Compile Include="DAO\HabitacionDAO.cs" />
     <Compile Include="DAO\HotelDAO.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="DAO\RolDAO.cs" />
     <Compile Include="DAO\TipoHabitacionDAO.cs" />
     <Compile Include="DAO\UsuarioDAO.cs" />
+    <Compile Include="Entidad\Cliente.cs" />
     <Compile Include="Entidad\Domicilio.cs" />
     <Compile Include="Entidad\Habitacion.cs" />
     <Compile Include="Entidad\Hotel.cs" />
