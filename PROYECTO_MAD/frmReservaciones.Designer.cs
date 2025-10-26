@@ -29,41 +29,41 @@
         private void InitializeComponent()
         {
             this.label3 = new System.Windows.Forms.Label();
-            this.cbrol = new System.Windows.Forms.ComboBox();
-            this.btnbuscardisponibilidad = new FontAwesome.Sharp.IconButton();
-            this.dgwempleados = new System.Windows.Forms.DataGridView();
+            this.cbPais = new System.Windows.Forms.ComboBox();
+            this.btnBuscardisponibilidad = new FontAwesome.Sharp.IconButton();
+            this.dgvCliente = new System.Windows.Forms.DataGridView();
             this.NombreCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ApellidosCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RfcCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CorreoCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TelefonoCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnbuscar = new FontAwesome.Sharp.IconButton();
-            this.btnlimpiar = new FontAwesome.Sharp.IconButton();
-            this.txtbusqueda = new System.Windows.Forms.TextBox();
-            this.cbfiltro = new System.Windows.Forms.ComboBox();
+            this.btnBuscar = new FontAwesome.Sharp.IconButton();
+            this.btnLimpiarfiltro = new FontAwesome.Sharp.IconButton();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.cbFiltro = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnclientenuevo = new FontAwesome.Sharp.IconButton();
+            this.gbSeleccionacliente = new System.Windows.Forms.GroupBox();
+            this.btnClientenuevo = new FontAwesome.Sharp.IconButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbDefinirestancia = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpSalida = new System.Windows.Forms.DateTimePicker();
+            this.dtpEntrada = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.cbCiudad = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cbEstado = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.gbResumen = new System.Windows.Forms.GroupBox();
+            this.cbMetodopago = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.nudAnticipo = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnconfirmarreservacion = new FontAwesome.Sharp.IconButton();
+            this.lbMontototal = new System.Windows.Forms.Label();
+            this.btnConfirmarreservacion = new FontAwesome.Sharp.IconButton();
             this.label11 = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
             this.NombreHotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TipoHabitacionReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CapacidadReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,12 +72,12 @@
             this.CantidadReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumeroPersonasReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SubTotalReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwempleados)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCliente)).BeginInit();
+            this.gbSeleccionacliente.SuspendLayout();
+            this.gbDefinirestancia.SuspendLayout();
+            this.gbResumen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAnticipo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
@@ -89,53 +89,49 @@
             this.label3.Size = new System.Drawing.Size(39, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "Pais:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // cbrol
+            // cbPais
             // 
-            this.cbrol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbrol.FormattingEnabled = true;
-            this.cbrol.Location = new System.Drawing.Point(39, 25);
-            this.cbrol.Name = "cbrol";
-            this.cbrol.Size = new System.Drawing.Size(127, 28);
-            this.cbrol.TabIndex = 20;
-            this.cbrol.SelectedIndexChanged += new System.EventHandler(this.cbrol_SelectedIndexChanged);
+            this.cbPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPais.FormattingEnabled = true;
+            this.cbPais.Location = new System.Drawing.Point(39, 25);
+            this.cbPais.Name = "cbPais";
+            this.cbPais.Size = new System.Drawing.Size(127, 28);
+            this.cbPais.TabIndex = 20;
             // 
-            // btnbuscardisponibilidad
+            // btnBuscardisponibilidad
             // 
-            this.btnbuscardisponibilidad.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnbuscardisponibilidad.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnbuscardisponibilidad.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnbuscardisponibilidad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnbuscardisponibilidad.ForeColor = System.Drawing.Color.White;
-            this.btnbuscardisponibilidad.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
-            this.btnbuscardisponibilidad.IconColor = System.Drawing.Color.White;
-            this.btnbuscardisponibilidad.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnbuscardisponibilidad.IconSize = 16;
-            this.btnbuscardisponibilidad.Location = new System.Drawing.Point(165, 153);
-            this.btnbuscardisponibilidad.Name = "btnbuscardisponibilidad";
-            this.btnbuscardisponibilidad.Size = new System.Drawing.Size(222, 32);
-            this.btnbuscardisponibilidad.TabIndex = 23;
-            this.btnbuscardisponibilidad.Text = "BuscarDisponibilidad";
-            this.btnbuscardisponibilidad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnbuscardisponibilidad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnbuscardisponibilidad.UseVisualStyleBackColor = false;
-            this.btnbuscardisponibilidad.Click += new System.EventHandler(this.btnguardar_Click);
+            this.btnBuscardisponibilidad.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnBuscardisponibilidad.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBuscardisponibilidad.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnBuscardisponibilidad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscardisponibilidad.ForeColor = System.Drawing.Color.White;
+            this.btnBuscardisponibilidad.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
+            this.btnBuscardisponibilidad.IconColor = System.Drawing.Color.White;
+            this.btnBuscardisponibilidad.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnBuscardisponibilidad.IconSize = 16;
+            this.btnBuscardisponibilidad.Location = new System.Drawing.Point(165, 153);
+            this.btnBuscardisponibilidad.Name = "btnBuscardisponibilidad";
+            this.btnBuscardisponibilidad.Size = new System.Drawing.Size(222, 32);
+            this.btnBuscardisponibilidad.TabIndex = 23;
+            this.btnBuscardisponibilidad.Text = "BuscarDisponibilidad";
+            this.btnBuscardisponibilidad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBuscardisponibilidad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnBuscardisponibilidad.UseVisualStyleBackColor = false;
             // 
-            // dgwempleados
+            // dgvCliente
             // 
-            this.dgwempleados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgwempleados.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCliente.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NombreCliente,
             this.ApellidosCliente,
             this.RfcCliente,
             this.CorreoCliente,
             this.TelefonoCliente});
-            this.dgwempleados.Location = new System.Drawing.Point(7, 62);
-            this.dgwempleados.Name = "dgwempleados";
-            this.dgwempleados.Size = new System.Drawing.Size(548, 190);
-            this.dgwempleados.TabIndex = 26;
-            this.dgwempleados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwempleados_CellContentClick);
+            this.dgvCliente.Location = new System.Drawing.Point(7, 62);
+            this.dgvCliente.Name = "dgvCliente";
+            this.dgvCliente.Size = new System.Drawing.Size(548, 190);
+            this.dgvCliente.TabIndex = 26;
             // 
             // NombreCliente
             // 
@@ -167,51 +163,51 @@
             this.TelefonoCliente.Name = "TelefonoCliente";
             this.TelefonoCliente.ReadOnly = true;
             // 
-            // btnbuscar
+            // btnBuscar
             // 
-            this.btnbuscar.BackColor = System.Drawing.Color.White;
-            this.btnbuscar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnbuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnbuscar.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
-            this.btnbuscar.IconColor = System.Drawing.Color.Black;
-            this.btnbuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnbuscar.IconSize = 18;
-            this.btnbuscar.Location = new System.Drawing.Point(439, 33);
-            this.btnbuscar.Name = "btnbuscar";
-            this.btnbuscar.Size = new System.Drawing.Size(57, 23);
-            this.btnbuscar.TabIndex = 28;
-            this.btnbuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.BackColor = System.Drawing.Color.White;
+            this.btnBuscar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
+            this.btnBuscar.IconColor = System.Drawing.Color.Black;
+            this.btnBuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnBuscar.IconSize = 18;
+            this.btnBuscar.Location = new System.Drawing.Point(439, 33);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(57, 23);
+            this.btnBuscar.TabIndex = 28;
+            this.btnBuscar.UseVisualStyleBackColor = false;
             // 
-            // btnlimpiar
+            // btnLimpiarfiltro
             // 
-            this.btnlimpiar.BackColor = System.Drawing.Color.White;
-            this.btnlimpiar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnlimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnlimpiar.IconChar = FontAwesome.Sharp.IconChar.Broom;
-            this.btnlimpiar.IconColor = System.Drawing.Color.Black;
-            this.btnlimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnlimpiar.IconSize = 18;
-            this.btnlimpiar.Location = new System.Drawing.Point(502, 32);
-            this.btnlimpiar.Name = "btnlimpiar";
-            this.btnlimpiar.Size = new System.Drawing.Size(53, 23);
-            this.btnlimpiar.TabIndex = 29;
-            this.btnlimpiar.UseVisualStyleBackColor = false;
+            this.btnLimpiarfiltro.BackColor = System.Drawing.Color.White;
+            this.btnLimpiarfiltro.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnLimpiarfiltro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLimpiarfiltro.IconChar = FontAwesome.Sharp.IconChar.Broom;
+            this.btnLimpiarfiltro.IconColor = System.Drawing.Color.Black;
+            this.btnLimpiarfiltro.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnLimpiarfiltro.IconSize = 18;
+            this.btnLimpiarfiltro.Location = new System.Drawing.Point(502, 32);
+            this.btnLimpiarfiltro.Name = "btnLimpiarfiltro";
+            this.btnLimpiarfiltro.Size = new System.Drawing.Size(53, 23);
+            this.btnLimpiarfiltro.TabIndex = 29;
+            this.btnLimpiarfiltro.UseVisualStyleBackColor = false;
             // 
-            // txtbusqueda
+            // txtBusqueda
             // 
-            this.txtbusqueda.Location = new System.Drawing.Point(268, 30);
-            this.txtbusqueda.Name = "txtbusqueda";
-            this.txtbusqueda.Size = new System.Drawing.Size(165, 26);
-            this.txtbusqueda.TabIndex = 31;
+            this.txtBusqueda.Location = new System.Drawing.Point(268, 30);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(165, 26);
+            this.txtBusqueda.TabIndex = 31;
             // 
-            // cbfiltro
+            // cbFiltro
             // 
-            this.cbfiltro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbfiltro.FormattingEnabled = true;
-            this.cbfiltro.Location = new System.Drawing.Point(82, 28);
-            this.cbfiltro.Name = "cbfiltro";
-            this.cbfiltro.Size = new System.Drawing.Size(180, 28);
-            this.cbfiltro.TabIndex = 32;
+            this.cbFiltro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltro.FormattingEnabled = true;
+            this.cbFiltro.Location = new System.Drawing.Point(82, 28);
+            this.cbFiltro.Name = "cbFiltro";
+            this.cbFiltro.Size = new System.Drawing.Size(180, 28);
+            this.cbFiltro.TabIndex = 32;
             // 
             // label13
             // 
@@ -225,44 +221,44 @@
             this.label13.Text = "Detalle Reservacion";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // groupBox1
+            // gbSeleccionacliente
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Controls.Add(this.btnclientenuevo);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.cbfiltro);
-            this.groupBox1.Controls.Add(this.txtbusqueda);
-            this.groupBox1.Controls.Add(this.btnbuscar);
-            this.groupBox1.Controls.Add(this.btnlimpiar);
-            this.groupBox1.Controls.Add(this.dgwempleados);
-            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(5, 55);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(560, 296);
-            this.groupBox1.TabIndex = 50;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Selecciona el cliente";
+            this.gbSeleccionacliente.BackColor = System.Drawing.Color.White;
+            this.gbSeleccionacliente.Controls.Add(this.btnClientenuevo);
+            this.gbSeleccionacliente.Controls.Add(this.label1);
+            this.gbSeleccionacliente.Controls.Add(this.cbFiltro);
+            this.gbSeleccionacliente.Controls.Add(this.txtBusqueda);
+            this.gbSeleccionacliente.Controls.Add(this.btnBuscar);
+            this.gbSeleccionacliente.Controls.Add(this.btnLimpiarfiltro);
+            this.gbSeleccionacliente.Controls.Add(this.dgvCliente);
+            this.gbSeleccionacliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gbSeleccionacliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbSeleccionacliente.Location = new System.Drawing.Point(5, 55);
+            this.gbSeleccionacliente.Name = "gbSeleccionacliente";
+            this.gbSeleccionacliente.Size = new System.Drawing.Size(560, 296);
+            this.gbSeleccionacliente.TabIndex = 50;
+            this.gbSeleccionacliente.TabStop = false;
+            this.gbSeleccionacliente.Text = "Selecciona el cliente";
             // 
-            // btnclientenuevo
+            // btnClientenuevo
             // 
-            this.btnclientenuevo.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnclientenuevo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnclientenuevo.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnclientenuevo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnclientenuevo.ForeColor = System.Drawing.Color.White;
-            this.btnclientenuevo.IconChar = FontAwesome.Sharp.IconChar.Pencil;
-            this.btnclientenuevo.IconColor = System.Drawing.Color.White;
-            this.btnclientenuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnclientenuevo.IconSize = 16;
-            this.btnclientenuevo.Location = new System.Drawing.Point(165, 258);
-            this.btnclientenuevo.Name = "btnclientenuevo";
-            this.btnclientenuevo.Size = new System.Drawing.Size(222, 32);
-            this.btnclientenuevo.TabIndex = 53;
-            this.btnclientenuevo.Text = "Cliente Nuevo";
-            this.btnclientenuevo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnclientenuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnclientenuevo.UseVisualStyleBackColor = false;
+            this.btnClientenuevo.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnClientenuevo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClientenuevo.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnClientenuevo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClientenuevo.ForeColor = System.Drawing.Color.White;
+            this.btnClientenuevo.IconChar = FontAwesome.Sharp.IconChar.Pencil;
+            this.btnClientenuevo.IconColor = System.Drawing.Color.White;
+            this.btnClientenuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnClientenuevo.IconSize = 16;
+            this.btnClientenuevo.Location = new System.Drawing.Point(165, 258);
+            this.btnClientenuevo.Name = "btnClientenuevo";
+            this.btnClientenuevo.Size = new System.Drawing.Size(222, 32);
+            this.btnClientenuevo.TabIndex = 53;
+            this.btnClientenuevo.Text = "Cliente Nuevo";
+            this.btnClientenuevo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnClientenuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnClientenuevo.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -274,28 +270,28 @@
             this.label1.TabIndex = 52;
             this.label1.Text = "Buscar por:";
             // 
-            // groupBox2
+            // gbDefinirestancia
             // 
-            this.groupBox2.BackColor = System.Drawing.Color.White;
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.dateTimePicker2);
-            this.groupBox2.Controls.Add(this.dateTimePicker1);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.comboBox3);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.comboBox2);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.cbrol);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.btnbuscardisponibilidad);
-            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(5, 357);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(560, 191);
-            this.groupBox2.TabIndex = 53;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Definir Estancia";
+            this.gbDefinirestancia.BackColor = System.Drawing.Color.White;
+            this.gbDefinirestancia.Controls.Add(this.label7);
+            this.gbDefinirestancia.Controls.Add(this.dtpSalida);
+            this.gbDefinirestancia.Controls.Add(this.dtpEntrada);
+            this.gbDefinirestancia.Controls.Add(this.label6);
+            this.gbDefinirestancia.Controls.Add(this.cbCiudad);
+            this.gbDefinirestancia.Controls.Add(this.label5);
+            this.gbDefinirestancia.Controls.Add(this.cbEstado);
+            this.gbDefinirestancia.Controls.Add(this.label4);
+            this.gbDefinirestancia.Controls.Add(this.cbPais);
+            this.gbDefinirestancia.Controls.Add(this.label3);
+            this.gbDefinirestancia.Controls.Add(this.btnBuscardisponibilidad);
+            this.gbDefinirestancia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gbDefinirestancia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbDefinirestancia.Location = new System.Drawing.Point(5, 357);
+            this.gbDefinirestancia.Name = "gbDefinirestancia";
+            this.gbDefinirestancia.Size = new System.Drawing.Size(560, 191);
+            this.gbDefinirestancia.TabIndex = 53;
+            this.gbDefinirestancia.TabStop = false;
+            this.gbDefinirestancia.Text = "Definir Estancia";
             // 
             // label7
             // 
@@ -307,19 +303,19 @@
             this.label7.TabIndex = 31;
             this.label7.Text = "Salida:";
             // 
-            // dateTimePicker2
+            // dtpSalida
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(295, 83);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(260, 26);
-            this.dateTimePicker2.TabIndex = 30;
+            this.dtpSalida.Location = new System.Drawing.Point(295, 83);
+            this.dtpSalida.Name = "dtpSalida";
+            this.dtpSalida.Size = new System.Drawing.Size(260, 26);
+            this.dtpSalida.TabIndex = 30;
             // 
-            // dateTimePicker1
+            // dtpEntrada
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(9, 83);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(257, 26);
-            this.dateTimePicker1.TabIndex = 29;
+            this.dtpEntrada.Location = new System.Drawing.Point(9, 83);
+            this.dtpEntrada.Name = "dtpEntrada";
+            this.dtpEntrada.Size = new System.Drawing.Size(257, 26);
+            this.dtpEntrada.TabIndex = 29;
             // 
             // label6
             // 
@@ -331,14 +327,14 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "Entrada:";
             // 
-            // comboBox3
+            // cbCiudad
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(407, 25);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(148, 28);
-            this.comboBox3.TabIndex = 27;
+            this.cbCiudad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCiudad.FormattingEnabled = true;
+            this.cbCiudad.Location = new System.Drawing.Point(407, 25);
+            this.cbCiudad.Name = "cbCiudad";
+            this.cbCiudad.Size = new System.Drawing.Size(148, 28);
+            this.cbCiudad.TabIndex = 27;
             // 
             // label5
             // 
@@ -349,16 +345,15 @@
             this.label5.Size = new System.Drawing.Size(49, 20);
             this.label5.TabIndex = 26;
             this.label5.Text = "Ciudad:";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
-            // comboBox2
+            // cbEstado
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(216, 25);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(130, 28);
-            this.comboBox2.TabIndex = 25;
+            this.cbEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEstado.FormattingEnabled = true;
+            this.cbEstado.Location = new System.Drawing.Point(216, 25);
+            this.cbEstado.Name = "cbEstado";
+            this.cbEstado.Size = new System.Drawing.Size(130, 28);
+            this.cbEstado.TabIndex = 25;
             // 
             // label4
             // 
@@ -370,33 +365,33 @@
             this.label4.TabIndex = 24;
             this.label4.Text = "Estado:";
             // 
-            // groupBox3
+            // gbResumen
             // 
-            this.groupBox3.BackColor = System.Drawing.Color.White;
-            this.groupBox3.Controls.Add(this.comboBox1);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.numericUpDown1);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.btnconfirmarreservacion);
-            this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(5, 554);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(560, 130);
-            this.groupBox3.TabIndex = 54;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Resumen y Confirmacion";
+            this.gbResumen.BackColor = System.Drawing.Color.White;
+            this.gbResumen.Controls.Add(this.cbMetodopago);
+            this.gbResumen.Controls.Add(this.label10);
+            this.gbResumen.Controls.Add(this.nudAnticipo);
+            this.gbResumen.Controls.Add(this.label9);
+            this.gbResumen.Controls.Add(this.label8);
+            this.gbResumen.Controls.Add(this.lbMontototal);
+            this.gbResumen.Controls.Add(this.btnConfirmarreservacion);
+            this.gbResumen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gbResumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbResumen.Location = new System.Drawing.Point(5, 554);
+            this.gbResumen.Name = "gbResumen";
+            this.gbResumen.Size = new System.Drawing.Size(560, 130);
+            this.gbResumen.TabIndex = 54;
+            this.gbResumen.TabStop = false;
+            this.gbResumen.Text = "Resumen y Confirmacion";
             // 
-            // comboBox1
+            // cbMetodopago
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(333, 37);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(222, 28);
-            this.comboBox1.TabIndex = 41;
+            this.cbMetodopago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMetodopago.FormattingEnabled = true;
+            this.cbMetodopago.Location = new System.Drawing.Point(333, 37);
+            this.cbMetodopago.Name = "cbMetodopago";
+            this.cbMetodopago.Size = new System.Drawing.Size(222, 28);
+            this.cbMetodopago.TabIndex = 41;
             // 
             // label10
             // 
@@ -408,19 +403,19 @@
             this.label10.TabIndex = 40;
             this.label10.Text = "Medio de Pago:";
             // 
-            // numericUpDown1
+            // nudAnticipo
             // 
-            this.numericUpDown1.DecimalPlaces = 2;
-            this.numericUpDown1.Location = new System.Drawing.Point(82, 39);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.nudAnticipo.DecimalPlaces = 2;
+            this.nudAnticipo.Location = new System.Drawing.Point(82, 39);
+            this.nudAnticipo.Maximum = new decimal(new int[] {
             9999999,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(111, 26);
-            this.numericUpDown1.TabIndex = 39;
-            this.numericUpDown1.ThousandsSeparator = true;
+            this.nudAnticipo.Name = "nudAnticipo";
+            this.nudAnticipo.Size = new System.Drawing.Size(111, 26);
+            this.nudAnticipo.TabIndex = 39;
+            this.nudAnticipo.ThousandsSeparator = true;
             // 
             // label9
             // 
@@ -442,36 +437,35 @@
             this.label8.TabIndex = 37;
             this.label8.Text = "Monto Total:";
             // 
-            // label2
+            // lbMontototal
             // 
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(112, 98);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(215, 20);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "$0.00";
-            this.label2.Click += new System.EventHandler(this.label2_Click_1);
+            this.lbMontototal.BackColor = System.Drawing.Color.White;
+            this.lbMontototal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMontototal.Location = new System.Drawing.Point(112, 98);
+            this.lbMontototal.Name = "lbMontototal";
+            this.lbMontototal.Size = new System.Drawing.Size(215, 20);
+            this.lbMontototal.TabIndex = 2;
+            this.lbMontototal.Text = "$0.00";
             // 
-            // btnconfirmarreservacion
+            // btnConfirmarreservacion
             // 
-            this.btnconfirmarreservacion.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnconfirmarreservacion.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnconfirmarreservacion.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnconfirmarreservacion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnconfirmarreservacion.ForeColor = System.Drawing.Color.White;
-            this.btnconfirmarreservacion.IconChar = FontAwesome.Sharp.IconChar.CircleCheck;
-            this.btnconfirmarreservacion.IconColor = System.Drawing.Color.White;
-            this.btnconfirmarreservacion.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnconfirmarreservacion.IconSize = 20;
-            this.btnconfirmarreservacion.Location = new System.Drawing.Point(333, 89);
-            this.btnconfirmarreservacion.Name = "btnconfirmarreservacion";
-            this.btnconfirmarreservacion.Size = new System.Drawing.Size(222, 32);
-            this.btnconfirmarreservacion.TabIndex = 23;
-            this.btnconfirmarreservacion.Text = "Confirmar Reservacion";
-            this.btnconfirmarreservacion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnconfirmarreservacion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnconfirmarreservacion.UseVisualStyleBackColor = false;
+            this.btnConfirmarreservacion.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnConfirmarreservacion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConfirmarreservacion.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnConfirmarreservacion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfirmarreservacion.ForeColor = System.Drawing.Color.White;
+            this.btnConfirmarreservacion.IconChar = FontAwesome.Sharp.IconChar.CircleCheck;
+            this.btnConfirmarreservacion.IconColor = System.Drawing.Color.White;
+            this.btnConfirmarreservacion.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnConfirmarreservacion.IconSize = 20;
+            this.btnConfirmarreservacion.Location = new System.Drawing.Point(333, 89);
+            this.btnConfirmarreservacion.Name = "btnConfirmarreservacion";
+            this.btnConfirmarreservacion.Size = new System.Drawing.Size(222, 32);
+            this.btnConfirmarreservacion.TabIndex = 23;
+            this.btnConfirmarreservacion.Text = "Confirmar Reservacion";
+            this.btnConfirmarreservacion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnConfirmarreservacion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnConfirmarreservacion.UseVisualStyleBackColor = false;
             // 
             // label11
             // 
@@ -484,10 +478,10 @@
             this.label11.Text = "Seleccionar Habitaciones";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // dataGridView2
+            // dgvHabitaciones
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHabitaciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NombreHotel,
             this.TipoHabitacionReservacion,
             this.CapacidadReservacion,
@@ -496,11 +490,10 @@
             this.CantidadReservacion,
             this.NumeroPersonasReservacion,
             this.SubTotalReservacion});
-            this.dataGridView2.Location = new System.Drawing.Point(571, 88);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(772, 596);
-            this.dataGridView2.TabIndex = 56;
-            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
+            this.dgvHabitaciones.Location = new System.Drawing.Point(571, 88);
+            this.dgvHabitaciones.Name = "dgvHabitaciones";
+            this.dgvHabitaciones.Size = new System.Drawing.Size(772, 596);
+            this.dgvHabitaciones.TabIndex = 56;
             // 
             // NombreHotel
             // 
@@ -554,62 +547,62 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(1349, 686);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dgvHabitaciones);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbResumen);
+            this.Controls.Add(this.gbDefinirestancia);
+            this.Controls.Add(this.gbSeleccionacliente);
             this.Controls.Add(this.label13);
             this.Name = "frmReservaciones";
             this.Text = "frmReservaciones";
-            ((System.ComponentModel.ISupportInitialize)(this.dgwempleados)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCliente)).EndInit();
+            this.gbSeleccionacliente.ResumeLayout(false);
+            this.gbSeleccionacliente.PerformLayout();
+            this.gbDefinirestancia.ResumeLayout(false);
+            this.gbResumen.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudAnticipo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHabitaciones)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cbrol;
-        private FontAwesome.Sharp.IconButton btnbuscardisponibilidad;
-        private System.Windows.Forms.DataGridView dgwempleados;
-        private FontAwesome.Sharp.IconButton btnbuscar;
-        private FontAwesome.Sharp.IconButton btnlimpiar;
-        private System.Windows.Forms.TextBox txtbusqueda;
-        private System.Windows.Forms.ComboBox cbfiltro;
+        private System.Windows.Forms.ComboBox cbPais;
+        private FontAwesome.Sharp.IconButton btnBuscardisponibilidad;
+        private System.Windows.Forms.DataGridView dgvCliente;
+        private FontAwesome.Sharp.IconButton btnBuscar;
+        private FontAwesome.Sharp.IconButton btnLimpiarfiltro;
+        private System.Windows.Forms.TextBox txtBusqueda;
+        private System.Windows.Forms.ComboBox cbFiltro;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbSeleccionacliente;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label2;
-        private FontAwesome.Sharp.IconButton btnconfirmarreservacion;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.GroupBox gbDefinirestancia;
+        private System.Windows.Forms.GroupBox gbResumen;
+        private System.Windows.Forms.Label lbMontototal;
+        private FontAwesome.Sharp.IconButton btnConfirmarreservacion;
+        private System.Windows.Forms.ComboBox cbCiudad;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cbEstado;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpSalida;
+        private System.Windows.Forms.DateTimePicker dtpEntrada;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbMetodopago;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nudAnticipo;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvHabitaciones;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn ApellidosCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn RfcCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn CorreoCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn TelefonoCliente;
-        private FontAwesome.Sharp.IconButton btnclientenuevo;
+        private FontAwesome.Sharp.IconButton btnClientenuevo;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreHotel;
         private System.Windows.Forms.DataGridViewTextBoxColumn TipoHabitacionReservacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn CapacidadReservacion;
