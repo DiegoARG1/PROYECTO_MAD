@@ -37,6 +37,17 @@ namespace PROYECTO_MAD
                 MessageBox.Show("Error al cargar la lista de hoteles: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void CargarEstados()
+        {
+            cbEstado.Items.Clear();
+
+            cbEstado.Items.Add("Disponible");
+            cbEstado.Items.Add("Ocupada");
+            cbEstado.Items.Add("En Mantenimiento");
+            cbEstado.Items.Add("Fuera de Servicio");
+
+            cbEstado.SelectedItem = "Disponible";
+        }
         private void LimpiarFormulario()
         {
             cbHotel.SelectedIndex = -1;
@@ -48,6 +59,12 @@ namespace PROYECTO_MAD
             dgvHabitaciones.DataSource = null;
 
             LimpiarCamposDetalleHabitacion();
+
+            cbHotel.Enabled = true;
+            cbTipohabitacion.Enabled = true;
+            cbHotel.SelectedIndex = -1;
+            cbTipohabitacion.DataSource = null ;
+            idHabitacionSeleccionada = null;
 
             cbHotel.Focus();
         }
@@ -110,6 +127,7 @@ namespace PROYECTO_MAD
         private void frmHabitaciones_Load(object sender, EventArgs e)
         {
             CargarHoteles();
+            CargarEstados();
         }
 
         private void btnlimpiartxt_Click(object sender, EventArgs e)
@@ -213,6 +231,108 @@ namespace PROYECTO_MAD
                 int idHotelSeleccionado = (int)cbHotel.SelectedValue;
                 CargarTiposHabitacion(idHotelSeleccionado);
                 CargarHabitaciones(idHotelSeleccionado);
+            }
+        }
+
+        private void dgvHabitaciones_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvHabitaciones.SelectedRows.Count > 0)
+            {
+                Habitacion habSeleccionada = (Habitacion)dgvHabitaciones.SelectedRows[0].DataBoundItem;                                                                                                        // cboHotel.SelectedValue = ???;
+
+                cbTipohabitacion.SelectedValue = habSeleccionada.IdTipoHabitacion;
+                txtNrohabitacion.Text = habSeleccionada.NroHabitacion;
+
+                // Asegura que el valor del piso esté dentro de los límites
+                nudNropiso.Value = Math.Max(nudNropiso.Minimum, Math.Min(nudNropiso.Maximum, habSeleccionada.NroPiso));
+                cbEstado.SelectedItem = habSeleccionada.Estado;
+
+                // Guarda el ID para saber que estamos editando
+                idHabitacionSeleccionada = habSeleccionada.IdHabitacion;
+
+                // Opcional: Desactiva campos que no se deberían editar (ej. Hotel o Tipo)
+                cbHotel.Enabled = false;
+                cbTipohabitacion.Enabled = false;
+            }
+        }
+
+        private void btneditar_Click(object sender, EventArgs e)
+        {
+            if (idHabitacionSeleccionada == null)
+            {
+                MessageBox.Show("Por favor, selecciona una habitación de la lista para editar.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            Habitacion habitacion = new Habitacion();
+            habitacion.IdHabitacion = idHabitacionSeleccionada.Value;
+
+            // Tipo de Habitación (Debe estar seleccionado)
+            if (cbTipohabitacion.SelectedValue == null || !(cbTipohabitacion.SelectedValue is int))
+            {
+                MessageBox.Show("Error interno: No se pudo obtener el Tipo de Habitación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            habitacion.IdTipoHabitacion = (int)cbTipohabitacion.SelectedValue;
+
+            habitacion.NroHabitacion = txtNrohabitacion.Text.Trim();
+            habitacion.NroPiso = (int)nudNropiso.Value;
+            habitacion.Estado = cbEstado.SelectedItem?.ToString();
+
+            // --- 3. Validaciones ---
+            if (string.IsNullOrEmpty(habitacion.NroHabitacion) || string.IsNullOrEmpty(habitacion.Estado))
+            {
+                MessageBox.Show("Por favor ingrese todos datos.", "Datos Requeridos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNrohabitacion.Focus();
+                return;
+            }
+            // Validación de Piso (Necesitamos la info del Hotel actual)
+            if (cbHotel.SelectedItem != null && cbHotel.SelectedItem is Hotel hotelSeleccionado)
+            {
+                if (habitacion.NroPiso > hotelSeleccionado.NroPisos)
+                {
+                    MessageBox.Show($"El número de piso ({habitacion.NroPiso}) no puede ser mayor que el número de pisos del hotel ({hotelSeleccionado.NroPisos}).", "Piso Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    nudNropiso.Focus();
+                    return;
+                }
+            }
+            if (habitacion.NroPiso <= 0)
+            {
+                MessageBox.Show("El número de piso debe ser mayor que cero.", "Piso Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                nudNropiso.Focus();
+                return;
+            }
+
+            try
+            {
+                int filasActualizadas = HabitacionDAO.ActualizarHabitacion(habitacion);
+
+                if (filasActualizadas > 0)
+                {
+                    MessageBox.Show("Habitación actualizada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (cbHotel.SelectedValue != null && cbHotel.SelectedValue is int idHotelActual)
+                    {
+                        CargarHabitaciones(idHotelActual);
+                    }
+                    LimpiarFormulario(); // Limpia campos y resetea modo edición
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar la habitación. Es posible que no se encontrara.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores (ej. número de habitación duplicado)
+                if (ex is SqlException sqlEx && (sqlEx.Number == 2627 || sqlEx.Number == 2601))
+                {
+                    MessageBox.Show($"Ya existe otra habitación con el número '{habitacion.NroHabitacion}' en este hotel.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Error al actualizar la habitación: " + ex.Message + (ex.InnerException != null ? "\nDetalle: " + ex.InnerException.Message : ""), "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

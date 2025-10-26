@@ -288,7 +288,50 @@ namespace PROYECTO_MAD
 
         private void dgvHoteles_SelectionChanged(object sender, EventArgs e)
         {
+            if (dgvHoteles.SelectedRows.Count > 0)
+            {
+                Hotel hotelSeleccionado = (Hotel)dgvHoteles.SelectedRows[0].DataBoundItem;
 
+                txtNombre.Text = hotelSeleccionado.Nombre;
+
+                nudNrohabitaciones.Value = Math.Max(nudNrohabitaciones.Minimum, Math.Min(nudNrohabitaciones.Maximum, hotelSeleccionado.NroHabitaciones));
+                nudNropisos.Value = Math.Max(nudNropisos.Minimum, Math.Min(nudNropisos.Maximum, hotelSeleccionado.NroPisos));
+
+                // Asegura de que la fecha no esté fuera del rango del DateTimePicker
+                if (hotelSeleccionado.FechaInicioOperaciones >= dtpIniciooperaciones.MinDate &&
+                    hotelSeleccionado.FechaInicioOperaciones <= dtpIniciooperaciones.MaxDate)
+                {
+                    dtpIniciooperaciones.Value = hotelSeleccionado.FechaInicioOperaciones;
+                }
+                else
+                {
+                    dtpIniciooperaciones.Value = DateTime.Today;
+                }
+
+
+                if (hotelSeleccionado.oDomicilioH != null)
+                {
+                    cbPais.SelectedItem = hotelSeleccionado.oDomicilioH.Pais;
+                    cbEstado.SelectedItem = hotelSeleccionado.oDomicilioH.Estado;
+                    cbCiudad.SelectedItem = hotelSeleccionado.oDomicilioH.Ciudad;
+                    txtCalle.Text = hotelSeleccionado.oDomicilioH.Calle;
+                    txtNumero.Text = hotelSeleccionado.oDomicilioH.Numero;
+                    txtCp.Text = hotelSeleccionado.oDomicilioH.CodigoPostal;
+
+                    // Guarda el ID del domicilio para la edición
+                    idDomicilioSeleccionado = hotelSeleccionado.oDomicilioH.IdDomicilio;
+                }
+                else
+                {
+                    if (cbPais.Items.Count > 0) cbPais.SelectedIndex = 0;
+                    txtCalle.Clear();
+                    txtNumero.Clear();
+                    txtCp.Clear();
+                    idDomicilioSeleccionado = null;
+                }
+
+                idHotelSeleccionado = hotelSeleccionado.IdHotel;
+            }
         }
     }
 }

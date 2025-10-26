@@ -35,7 +35,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnguardar = new FontAwesome.Sharp.IconButton();
             this.btneditar = new FontAwesome.Sharp.IconButton();
-            this.btneliminar = new FontAwesome.Sharp.IconButton();
             this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
             this.NombreHotelHabitaciones = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TipoHabitacionHabitacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -151,26 +150,7 @@
             this.btneditar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btneditar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btneditar.UseVisualStyleBackColor = false;
-            // 
-            // btneliminar
-            // 
-            this.btneliminar.BackColor = System.Drawing.Color.Firebrick;
-            this.btneliminar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btneliminar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btneliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btneliminar.ForeColor = System.Drawing.Color.White;
-            this.btneliminar.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.btneliminar.IconColor = System.Drawing.Color.White;
-            this.btneliminar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btneliminar.IconSize = 16;
-            this.btneliminar.Location = new System.Drawing.Point(17, 622);
-            this.btneliminar.Name = "btneliminar";
-            this.btneliminar.Size = new System.Drawing.Size(222, 23);
-            this.btneliminar.TabIndex = 25;
-            this.btneliminar.Text = "Eliminar";
-            this.btneliminar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btneliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btneliminar.UseVisualStyleBackColor = false;
+            this.btneditar.Click += new System.EventHandler(this.btneditar_Click);
             // 
             // dgvHabitaciones
             // 
@@ -187,6 +167,7 @@
             this.dgvHabitaciones.Name = "dgvHabitaciones";
             this.dgvHabitaciones.Size = new System.Drawing.Size(1082, 609);
             this.dgvHabitaciones.TabIndex = 26;
+            this.dgvHabitaciones.SelectionChanged += new System.EventHandler(this.dgvHabitaciones_SelectionChanged);
             // 
             // NombreHotelHabitaciones
             // 
@@ -271,7 +252,7 @@
             this.btnlimpiartxt.IconColor = System.Drawing.Color.White;
             this.btnlimpiartxt.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnlimpiartxt.IconSize = 16;
-            this.btnlimpiartxt.Location = new System.Drawing.Point(17, 651);
+            this.btnlimpiartxt.Location = new System.Drawing.Point(17, 622);
             this.btnlimpiartxt.Name = "btnlimpiartxt";
             this.btnlimpiartxt.Size = new System.Drawing.Size(222, 23);
             this.btnlimpiartxt.TabIndex = 46;
@@ -406,7 +387,6 @@
             this.Controls.Add(this.btnbuscar);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.dgvHabitaciones);
-            this.Controls.Add(this.btneliminar);
             this.Controls.Add(this.btneditar);
             this.Controls.Add(this.btnguardar);
             this.Controls.Add(this.label5);
@@ -433,7 +413,6 @@
         private System.Windows.Forms.Label label5;
         private FontAwesome.Sharp.IconButton btnguardar;
         private FontAwesome.Sharp.IconButton btneditar;
-        private FontAwesome.Sharp.IconButton btneliminar;
         private System.Windows.Forms.DataGridView dgvHabitaciones;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox cbHotel;

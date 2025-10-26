@@ -90,5 +90,29 @@ namespace PROYECTO_MAD.DAO
                 return comando.ExecuteNonQuery();
             }
         }
+        public static int ActualizarHabitacion(Habitacion habitacion)
+        {
+            using (SqlConnection conexion = BDConexion.ObtenerConexion())
+            {
+                string query = @"
+            UPDATE HABITACION SET
+                IdTipoHabitacion = @IdTipoHabitacion,
+                NroHabitacion = @NroHabitacion,
+                NroPiso = @NroPiso,
+                Estado = @Estado
+                -- No actualizamos UsuarioCreador ni FechaRegistro
+            WHERE IdHabitacion = @IdHabitacion;
+                ";
+                SqlCommand comando = new SqlCommand(query, conexion);
+
+                comando.Parameters.AddWithValue("@IdHabitacion", habitacion.IdHabitacion); // Para el WHERE
+                comando.Parameters.AddWithValue("@IdTipoHabitacion", habitacion.IdTipoHabitacion);
+                comando.Parameters.AddWithValue("@NroHabitacion", habitacion.NroHabitacion);
+                comando.Parameters.AddWithValue("@NroPiso", habitacion.NroPiso);
+                comando.Parameters.AddWithValue("@Estado", habitacion.Estado);
+
+                return comando.ExecuteNonQuery();
+            }
+        }
     }
 }
