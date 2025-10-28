@@ -98,6 +98,7 @@
             this.cbPais.Name = "cbPais";
             this.cbPais.Size = new System.Drawing.Size(127, 28);
             this.cbPais.TabIndex = 20;
+            this.cbPais.SelectedIndexChanged += new System.EventHandler(this.cbPais_SelectedIndexChanged);
             // 
             // btnBuscardisponibilidad
             // 
@@ -132,6 +133,7 @@
             this.dgvCliente.Name = "dgvCliente";
             this.dgvCliente.Size = new System.Drawing.Size(548, 190);
             this.dgvCliente.TabIndex = 26;
+            this.dgvCliente.SelectionChanged += new System.EventHandler(this.dgvCliente_SelectionChanged);
             // 
             // NombreCliente
             // 
@@ -177,6 +179,7 @@
             this.btnBuscar.Size = new System.Drawing.Size(57, 23);
             this.btnBuscar.TabIndex = 28;
             this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnLimpiarfiltro
             // 
@@ -259,6 +262,7 @@
             this.btnClientenuevo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnClientenuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnClientenuevo.UseVisualStyleBackColor = false;
+            this.btnClientenuevo.Click += new System.EventHandler(this.btnClientenuevo_Click);
             // 
             // label1
             // 
@@ -354,6 +358,7 @@
             this.cbEstado.Name = "cbEstado";
             this.cbEstado.Size = new System.Drawing.Size(130, 28);
             this.cbEstado.TabIndex = 25;
+            this.cbEstado.SelectedIndexChanged += new System.EventHandler(this.cbEstado_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -555,6 +560,7 @@
             this.Controls.Add(this.label13);
             this.Name = "frmReservaciones";
             this.Text = "frmReservaciones";
+            this.Load += new System.EventHandler(this.frmReservaciones_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCliente)).EndInit();
             this.gbSeleccionacliente.ResumeLayout(false);
             this.gbSeleccionacliente.PerformLayout();

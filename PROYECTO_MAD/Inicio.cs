@@ -171,7 +171,7 @@ namespace PROYECTO_MAD
         {
             if (ValidarPermiso("menureservaciones"))
             {
-                AbrirForm(new frmReservaciones());
+                AbrirForm(new frmReservaciones(usuarioActual));
 
             }
             else
