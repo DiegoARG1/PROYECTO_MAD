@@ -9,7 +9,7 @@ namespace PROYECTO_MAD.Entidad
     public class TipoHabitacion
     {
         public int IdTipoHabitacion { get; set; }
-        public int IdHotel { get; set; } // Para saber a qué hotel pertenece
+        public int IdHotel { get; set; } // Para saber a que hotel pertenece
         public string Nivel { get; set; }
         public int NroCamas { get; set; }
         public string TipoCamas { get; set; }
@@ -21,8 +21,11 @@ namespace PROYECTO_MAD.Entidad
         // Propiedad para guardar las amenidades
         public List<Amenidad> Amenidades { get; set; }
 
+        //Propiedades extra locales
         // Propiedad extra para mostrar el nombre del hotel en el DataGridView
         public string NombreHotel { get; set; }
+
+        public int Disponibles { get; set; } // Para guardar cuantas habitaciones de este tipo quedan
 
         public TipoHabitacion()
         {

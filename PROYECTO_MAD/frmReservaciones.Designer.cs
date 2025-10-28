@@ -64,7 +64,7 @@
             this.btnConfirmarreservacion = new FontAwesome.Sharp.IconButton();
             this.label11 = new System.Windows.Forms.Label();
             this.dgvHabitaciones = new System.Windows.Forms.DataGridView();
-            this.NombreHotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreHotelReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TipoHabitacionReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CapacidadReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrecioNocheReservacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -119,6 +119,7 @@
             this.btnBuscardisponibilidad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscardisponibilidad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnBuscardisponibilidad.UseVisualStyleBackColor = false;
+            this.btnBuscardisponibilidad.Click += new System.EventHandler(this.btnBuscardisponibilidad_Click);
             // 
             // dgvCliente
             // 
@@ -195,6 +196,7 @@
             this.btnLimpiarfiltro.Size = new System.Drawing.Size(53, 23);
             this.btnLimpiarfiltro.TabIndex = 29;
             this.btnLimpiarfiltro.UseVisualStyleBackColor = false;
+            this.btnLimpiarfiltro.Click += new System.EventHandler(this.btnLimpiarfiltro_Click);
             // 
             // txtBusqueda
             // 
@@ -487,7 +489,7 @@
             // 
             this.dgvHabitaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHabitaciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.NombreHotel,
+            this.NombreHotelReservacion,
             this.TipoHabitacionReservacion,
             this.CapacidadReservacion,
             this.PrecioNocheReservacion,
@@ -499,12 +501,13 @@
             this.dgvHabitaciones.Name = "dgvHabitaciones";
             this.dgvHabitaciones.Size = new System.Drawing.Size(772, 596);
             this.dgvHabitaciones.TabIndex = 56;
+            this.dgvHabitaciones.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHabitaciones_CellValueChanged);
             // 
-            // NombreHotel
+            // NombreHotelReservacion
             // 
-            this.NombreHotel.HeaderText = "Hotel";
-            this.NombreHotel.Name = "NombreHotel";
-            this.NombreHotel.ReadOnly = true;
+            this.NombreHotelReservacion.HeaderText = "Hotel";
+            this.NombreHotelReservacion.Name = "NombreHotelReservacion";
+            this.NombreHotelReservacion.ReadOnly = true;
             // 
             // TipoHabitacionReservacion
             // 
@@ -617,5 +620,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CantidadReservacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumeroPersonasReservacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn SubTotalReservacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NombreHotelReservacion;
     }
 }

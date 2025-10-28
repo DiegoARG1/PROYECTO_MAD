@@ -163,5 +163,104 @@ namespace PROYECTO_MAD.DAO
             }
             return ids;
         }
+        public static List<TipoHabitacion> BuscarDisponibilidad(string ciudad, DateTime fechaEntrada, DateTime fechaSalida)
+        {
+            List<TipoHabitacion> listaDisponibles = new List<TipoHabitacion>();
+            SqlConnection conexion = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                conexion = BDConexion.ObtenerConexion();
+                if (conexion == null) throw new Exception("No se pudo conectar a la BD.");
+
+                // Consulta SQL para calcular disponibilidad
+                // CTEs (Common Table Expressions) para organizar la lógica
+                string query = @"
+                -- Parámetros de entrada
+                DECLARE @CiudadParam NVARCHAR(80) = @Ciudad;
+                DECLARE @FechaEntradaParam DATE = @FechaEntrada;
+                DECLARE @FechaSalidaParam DATE = @FechaSalida;
+
+                -- CTE 1: Todas las habitaciones físicas del hotel/ciudad con su tipo
+                WITH HabitacionesHotel AS (
+                    SELECT
+                        H.IdHabitacion,
+                        T.IdTipoHabitacion,
+                        T.Nivel,
+                        T.Capacidad,
+                        T.PrecioNoche,
+                        HT.Nombre AS NombreHotel
+                    FROM HABITACION H
+                    INNER JOIN TIPO_HABITACION T ON H.IdTipoHabitacion = T.IdTipoHabitacion
+                    INNER JOIN HOTEL HT ON T.IdHotel = HT.IdHotel
+                    INNER JOIN DOMICILIO D ON HT.IdDomicilio = D.IdDomicilio
+                    WHERE D.Ciudad = @CiudadParam AND H.Estado = 'Disponible' -- Considera habitaciones fisicas disponibles
+                ),
+                -- CTE 2: Habitaciones OCUPADAS en el rango de fechas
+                HabitacionesOcupadas AS (
+                    SELECT
+                        DR.IdHabitacion -- La habitación física ocupada
+                    FROM DETALLE_RESERVACION DR
+                    INNER JOIN RESERVACION R ON DR.IdReservacion = R.IdReservacion
+                    WHERE
+                        DR.IdHabitacion IS NOT NULL -- Solo si ya se asignó una física
+                        AND R.Estado = 'Activa' -- Solo reservas activas
+                        -- Condición de cruce de fechas: NuevaEntrada < ViejaSalida Y NuevaSalida > ViejaEntrada
+                        AND R.FechaEntrada < @FechaSalidaParam
+                        AND R.FechaSalida > @FechaEntradaParam
+                )
+                -- Consulta Final: Agrupa por tipo, cuenta total vs ocupadas y filtra
+                SELECT
+                    TH.IdTipoHabitacion,
+                    TH.Nivel,
+                    TH.Capacidad,
+                    TH.PrecioNoche,
+                    TH.NombreHotel,
+                    COUNT(TH.IdHabitacion) AS TotalHabitacionesTipo,
+                    COUNT(HO.IdHabitacion) AS OcupadasEnFechas,
+                    (COUNT(TH.IdHabitacion) - COUNT(HO.IdHabitacion)) AS Disponibles
+                FROM HabitacionesHotel TH
+                LEFT JOIN HabitacionesOcupadas HO ON TH.IdHabitacion = HO.IdHabitacion
+                GROUP BY
+                    TH.IdTipoHabitacion, TH.Nivel, TH.Capacidad, TH.PrecioNoche, TH.NombreHotel
+                HAVING
+                    (COUNT(TH.IdHabitacion) - COUNT(HO.IdHabitacion)) > 0 -- Solo muestra si hay al menos 1 disponible
+                ORDER BY
+                    TH.NombreHotel, TH.Nivel;
+            ";
+
+                SqlCommand comando = new SqlCommand(query, conexion);
+                comando.Parameters.AddWithValue("@Ciudad", ciudad);
+                comando.Parameters.AddWithValue("@FechaEntrada", fechaEntrada.Date); // Usa solo la fecha
+                comando.Parameters.AddWithValue("@FechaSalida", fechaSalida.Date);   // Usa solo la fecha
+
+                reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    TipoHabitacion tipo = new TipoHabitacion();
+                    tipo.IdTipoHabitacion = reader.GetInt32(reader.GetOrdinal("IdTipoHabitacion"));
+                    tipo.Nivel = reader.GetString(reader.GetOrdinal("Nivel"));
+                    tipo.Capacidad = reader.GetInt32(reader.GetOrdinal("Capacidad"));
+                    tipo.PrecioNoche = reader.GetDecimal(reader.GetOrdinal("PrecioNoche"));
+                    tipo.NombreHotel = reader.GetString(reader.GetOrdinal("NombreHotel"));
+                    tipo.Disponibles = reader.GetInt32(reader.GetOrdinal("Disponibles")); // Lee el conteo calculado
+
+                    listaDisponibles.Add(tipo);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error en TipoHabitacionDAO.BuscarDisponibilidad: " + ex.ToString());
+                throw; // Relanza para que el formulario lo capture
+            }
+            finally
+            {
+                reader?.Close();
+                conexion?.Close();
+            }
+            return listaDisponibles;
+        }
     }
 }
