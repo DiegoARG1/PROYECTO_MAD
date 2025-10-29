@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace PROYECTO_MAD
 {
@@ -143,7 +144,7 @@ namespace PROYECTO_MAD
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string criterio = cbFiltro.SelectedItem?.ToString();
-            string valor = txtBusqueda.Text.Trim();
+            string valor = txtBusqueda.Text.Trim().Replace("\r", "").Replace("\n", ""); ;
 
             if (string.IsNullOrEmpty(criterio) || string.IsNullOrEmpty(valor))
             {

@@ -184,7 +184,7 @@ namespace PROYECTO_MAD
         {
             if (ValidarPermiso("menucancelaciones"))
             {
-                AbrirForm(new frmCancelaciones(),true);
+                AbrirForm(new frmCancelaciones(usuarioActual),true);
 
             }
             else
