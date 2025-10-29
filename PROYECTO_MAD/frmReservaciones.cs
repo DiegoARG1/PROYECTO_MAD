@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,45 +17,60 @@ namespace PROYECTO_MAD
     {
         // Variables
         private Cliente clienteSeleccionado = null;
+        private int? idHotelSeleccionado = null;
         private Usuario usuarioLogueado;
 
         // Funciones
         private void LimpiarFormularioCompleto()
         {
+            // --- 1. Limpia Sección Cliente ---
             if (cbFiltro.Items.Count > 0)
             {
-                cbFiltro.SelectedIndex = 0;
+                cbFiltro.SelectedIndex = 0; // Resetea a "Apellidos"
             }
             txtBusqueda.Clear();
             dgvCliente.DataSource = null;
             clienteSeleccionado = null;
+            idHotelSeleccionado = null;
 
             gbDefinirestancia.Enabled = false;
             btnBuscardisponibilidad.Enabled = false;
 
+            // Resetea Ubicación Demo
             if (cbPais.Items.Count > 0)
             {
-                cbPais.SelectedIndex = 0;
+                cbPais.SelectedIndex = 0; // Selecciona "Mexico"
             }
-            else
+            // --- ¡AÑADIDO! Limpieza explícita de Estado y Ciudad ---
+            cbEstado.Items.Clear();      // Limpia ítems
+            cbCiudad.Items.Clear();      // Limpia ítems
+            cbEstado.SelectedIndex = -1; // Deselecciona
+            cbCiudad.SelectedIndex = -1; // Deselecciona
+                                         // Ahora recarga los estados para México (simula el evento)
+            if (cbPais.SelectedItem != null && cbPais.SelectedItem.ToString() == "Mexico")
             {
-                cbEstado.Items.Clear();
-                cbCiudad.Items.Clear();
-                cbEstado.SelectedIndex = -1;
-                cbCiudad.SelectedIndex = -1;
+                cbEstado.Items.Add("Quintana Roo");
+                cbEstado.Items.Add("Oaxaca");
+                cbEstado.Items.Add("Yucatan");
             }
+            // --- Fin Limpieza Explícita ---
 
+            // Resetea Fechas
             dtpEntrada.Value = DateTime.Today;
             dtpSalida.Value = DateTime.Today.AddDays(1);
 
+            // --- 3. Limpia Sección Habitaciones ---
             dgvHabitaciones.DataSource = null;
 
+            // --- 4. Resetea Sección Resumen ---
             gbResumen.Enabled = false;
             nudAnticipo.Value = 0;
             cbMetodopago.SelectedIndex = -1;
-            lbMontototal.Text = "$0.00";
+            lbMontototal.Text = "$0.00"; // Usa el nombre correcto de tu Label
             btnConfirmarreservacion.Enabled = false;
 
+            // --- 5. Poner Foco --- ¡AÑADIDO! ---
+            cbFiltro.Focus(); // Pone el cursor en el primer control
         }
         private void CargarOpcionesBusqueda()
         {
@@ -432,6 +448,160 @@ namespace PROYECTO_MAD
                 decimal subtotal = noches * personas * precio;
                 fila.Cells["SubTotalReservacion"].Value = subtotal;
                 RecalcularMontoTotal();
+            }
+        }
+
+        private void btnConfirmarreservacion_Click(object sender, EventArgs e)
+        {
+            if (clienteSeleccionado == null)
+            {
+                MessageBox.Show("Debe seleccionar un cliente.", "Validación Fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DateTime fechaEntrada = dtpEntrada.Value.Date;
+            DateTime fechaSalida = dtpSalida.Value.Date;
+            if (fechaSalida <= fechaEntrada || fechaEntrada < DateTime.Today)
+            {
+                MessageBox.Show("Las fechas de entrada/salida no son válidas.", "Validación Fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpEntrada.Focus();
+                return;
+            }
+
+            if (cbMetodopago.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un método de pago para el anticipo.", "Validación Fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbMetodopago.Focus();
+                return;
+            }
+
+            // Recolectar Detalles de Habitaciones Seleccionadas
+            List<DetalleReservacion> detallesParaGuardar = new List<DetalleReservacion>();
+            idHotelSeleccionado = null;
+            decimal precioTotalCalculado = 0m;
+            string nombreHotelSeleccionado = ""; // Para mensajes de error
+
+            foreach (DataGridViewRow fila in dgvHabitaciones.Rows)
+            {
+                // Obtener cantidad y personas de las celdas editables
+                int cantidad = Convert.ToInt32(fila.Cells["CantidadReservacion"].Value ?? 0);
+                int personas = Convert.ToInt32(fila.Cells["NumeroPersonasReservacion"].Value ?? 0);
+
+                // Si el usuario selecciono al menos una habitacion de este tipo...
+                if (cantidad > 0 && personas > 0)
+                {
+                    // Obtener el objeto TipoHabitacion de la fila
+                    TipoHabitacion tipo = (TipoHabitacion)fila.DataBoundItem;
+                    if (tipo == null) continue; // Saltar si hay algun problema con los datos
+
+                    int idHotelDeEstaFila = tipo.IdHotel;
+                    nombreHotelSeleccionado = tipo.NombreHotel;
+
+                    if (idHotelSeleccionado == null)
+                    {
+                        // Es la primera habitacion seleccionada, guarda su hotel
+                        idHotelSeleccionado = idHotelDeEstaFila;
+                    }
+                    else if (idHotelSeleccionado != idHotelDeEstaFila)
+                    {
+                        MessageBox.Show($"Solo puede reservar habitaciones para un hotel a la vez ('{nombreHotelSeleccionado}'). Por favor, ajuste la selección.",
+                                        "Selección Inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Validación final por si acaso
+                    if (cantidad > tipo.Disponibles)
+                    {
+                        MessageBox.Show($"La cantidad ({cantidad}) para '{tipo.Nivel}' excede las disponibles ({tipo.Disponibles}).", "Validación Fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    if (personas > (tipo.Capacidad * cantidad))
+                    {
+                        MessageBox.Show($"El número de personas ({personas}) para '{tipo.Nivel}' excede la capacidad máxima ({tipo.Capacidad * cantidad}).", "Validación Fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+
+                    int noches = CalcularNoches();
+                    for (int i = 0; i < cantidad; i++)
+                    {
+                        DetalleReservacion detalle = new DetalleReservacion();
+                        detalle.IdTipoHabitacion = tipo.IdTipoHabitacion;
+                        // Distribución simple de personas
+                        int personasEstaHab = (i == 0) ? (int)Math.Ceiling((double)personas / cantidad) : personas / cantidad;
+                        // Asegurar al menos 1 persona si el total es > 0
+                        if (personas > 0 && personasEstaHab == 0) personasEstaHab = 1;
+                        detalle.NroPersonas = personasEstaHab;
+                        detalle.PrecioNoche = tipo.PrecioNoche; // Precio congelado
+                        detallesParaGuardar.Add(detalle);
+                    }
+                    // Suma al total para verificar
+                    precioTotalCalculado += (decimal)(fila.Cells["SubTotalReservacion"].Value ?? 0m);
+                }
+            }
+
+            // Validar que se haya seleccionado al menos una habitación
+            if (detallesParaGuardar.Count == 0)
+            {
+                MessageBox.Show("Debe seleccionar la cantidad y personas para al menos un tipo de habitación.", "Validación Fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            // Validar que se determinó un hotel
+            if (idHotelSeleccionado == null)
+            {
+                MessageBox.Show("Error interno: No se pudo determinar el hotel de la selección. Verifique la selección de habitaciones.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            decimal montoLabel = 0m;
+            Decimal.TryParse(lbMontototal.Text.Replace("$", "").Replace(",", ""), out montoLabel); // Leer valor del Label
+            if (precioTotalCalculado != montoLabel)
+            {
+                // Podría haber un error en CellValueChanged o aquí. Recalcula y usa el valor del label como referencia final.
+                RecalcularMontoTotal(); // Llama a tu función que actualiza el label
+                Decimal.TryParse(lbMontototal.Text.Replace("$", "").Replace(",", ""), out precioTotalCalculado); // Lee el valor actualizado
+                                                                                                                 // Muestra advertencia si aún difieren mucho
+            }
+
+            // --- 3. Crear Objeto Reservacion Principal ---
+            Reservacion reservacion = new Reservacion();
+            reservacion.IdCliente = clienteSeleccionado.IdCliente;
+            reservacion.IdHotel = idHotelSeleccionado.Value;
+            reservacion.FechaEntrada = fechaEntrada;
+            reservacion.FechaSalida = fechaSalida;
+            reservacion.Anticipo = nudAnticipo.Value;
+            reservacion.MetodoPago = cbMetodopago.SelectedItem.ToString();
+            reservacion.Estado = "Activa";
+
+            // --- 4. Intentar Guardar (Llamada al DAO con Transacción) ---
+            try
+            {
+                int idUsuarioLogueado = this.usuarioLogueado.IdUsuario;
+                Guid codigoGenerado = ReservacionesDAO.InsertarReservacionCompleta(reservacion, detallesParaGuardar, idUsuarioLogueado);
+
+                Clipboard.SetText(codigoGenerado.ToString().ToUpper());
+
+                MessageBox.Show(
+                    "¡Reservación creada con éxito!\n\n" +
+                    "El código de reservación para el cliente es:\n" +
+                    codigoGenerado.ToString().ToUpper() +
+                    "*** ¡El código ya ha sido copiado al portapapeles! ***", // Muestra el GUID devuelto
+                    "Reservación Confirmada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                LimpiarFormularioCompleto();
+            }
+            catch (SqlException sqlEx) // Captura errores específicos de SQL
+            {
+                MessageBox.Show("Error de base de datos al guardar la reservación:\n" + sqlEx.Message, "Error SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // La transacción ya hizo Rollback en el DAO
+            }
+            catch (Exception ex) // Captura otros errores generales
+            {
+                MessageBox.Show("Error inesperado al guardar la reservación: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // La transacción ya hizo Rollback en el DAO
             }
         }
     }

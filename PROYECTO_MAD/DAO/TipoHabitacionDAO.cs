@@ -187,6 +187,7 @@ namespace PROYECTO_MAD.DAO
                     SELECT
                         H.IdHabitacion,
                         T.IdTipoHabitacion,
+                        T.IdHotel,
                         T.Nivel,
                         T.Capacidad,
                         T.PrecioNoche,
@@ -213,6 +214,7 @@ namespace PROYECTO_MAD.DAO
                 -- Consulta Final: Agrupa por tipo, cuenta total vs ocupadas y filtra
                 SELECT
                     TH.IdTipoHabitacion,
+                    TH.IdHotel,
                     TH.Nivel,
                     TH.Capacidad,
                     TH.PrecioNoche,
@@ -223,7 +225,7 @@ namespace PROYECTO_MAD.DAO
                 FROM HabitacionesHotel TH
                 LEFT JOIN HabitacionesOcupadas HO ON TH.IdHabitacion = HO.IdHabitacion
                 GROUP BY
-                    TH.IdTipoHabitacion, TH.Nivel, TH.Capacidad, TH.PrecioNoche, TH.NombreHotel
+                    TH.IdTipoHabitacion, TH.IdHotel, TH.Nivel, TH.Capacidad, TH.PrecioNoche, TH.NombreHotel
                 HAVING
                     (COUNT(TH.IdHabitacion) - COUNT(HO.IdHabitacion)) > 0 -- Solo muestra si hay al menos 1 disponible
                 ORDER BY
@@ -241,6 +243,7 @@ namespace PROYECTO_MAD.DAO
                 {
                     TipoHabitacion tipo = new TipoHabitacion();
                     tipo.IdTipoHabitacion = reader.GetInt32(reader.GetOrdinal("IdTipoHabitacion"));
+                    tipo.IdHotel = reader.GetInt32(reader.GetOrdinal("IdHotel"));
                     tipo.Nivel = reader.GetString(reader.GetOrdinal("Nivel"));
                     tipo.Capacidad = reader.GetInt32(reader.GetOrdinal("Capacidad"));
                     tipo.PrecioNoche = reader.GetDecimal(reader.GetOrdinal("PrecioNoche"));

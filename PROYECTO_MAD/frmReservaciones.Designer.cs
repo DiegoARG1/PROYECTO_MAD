@@ -473,6 +473,7 @@
             this.btnConfirmarreservacion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnConfirmarreservacion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnConfirmarreservacion.UseVisualStyleBackColor = false;
+            this.btnConfirmarreservacion.Click += new System.EventHandler(this.btnConfirmarreservacion_Click);
             // 
             // label11
             // 
