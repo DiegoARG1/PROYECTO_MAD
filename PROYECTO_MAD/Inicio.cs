@@ -210,7 +210,7 @@ namespace PROYECTO_MAD
         {
             if (ValidarPermiso("menucheckout"))
             {
-                AbrirForm(new frmCheckout(), true);
+                AbrirForm(new frmCheckout(usuarioActual), true);
 
             }
             else

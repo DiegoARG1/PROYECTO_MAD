@@ -313,5 +313,98 @@ namespace PROYECTO_MAD.DAO
                 conexion?.Close();
             }
         }
+        public static Reservacion ObtenerReservacionParaCheckout(Guid idReservacion)
+        {
+            Reservacion reservacion = null;
+            SqlConnection conexion = null;
+            SqlDataReader reader = null;
+            try
+            {
+                conexion = BDConexion.ObtenerConexion();
+                if (conexion == null) throw new Exception("DB Connection failed.");
+
+                // Consulta principal para obtener datos de Reserva, Cliente, Hotel
+                string queryPrincipal = @"
+            SELECT R.IdReservacion, R.IdCliente, R.IdHotel, R.FechaEntrada, R.FechaSalida,
+                   R.Anticipo, R.Estado,
+                   C.Nombre AS NombreCliente, C.Apellidos AS ApellidosCliente, C.RFC AS RFCCliente,
+                   H.Nombre AS NombreHotel
+            FROM RESERVACION R
+            INNER JOIN CLIENTE C ON R.IdCliente = C.IdCliente
+            INNER JOIN HOTEL H ON R.IdHotel = H.IdHotel
+            WHERE R.IdReservacion = @IdReservacion AND R.Estado = 'En-Curso'; -- Solo 'En-Curso'
+                ";
+                SqlCommand comandoPrincipal = new SqlCommand(queryPrincipal, conexion);
+                comandoPrincipal.Parameters.AddWithValue("@IdReservacion", idReservacion);
+                reader = comandoPrincipal.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    reservacion = new Reservacion();
+                    reservacion.IdReservacion = reader.GetGuid(reader.GetOrdinal("IdReservacion"));
+                    reservacion.IdCliente = reader.GetInt32(reader.GetOrdinal("IdCliente"));
+                    reservacion.IdHotel = reader.GetInt32(reader.GetOrdinal("IdHotel"));
+                    reservacion.FechaEntrada = reader.GetDateTime(reader.GetOrdinal("FechaEntrada"));
+                    reservacion.FechaSalida = reader.GetDateTime(reader.GetOrdinal("FechaSalida"));
+                    reservacion.Anticipo = reader.GetDecimal(reader.GetOrdinal("Anticipo"));
+                    reservacion.Estado = reader.GetString(reader.GetOrdinal("Estado"));
+                    // Info extra para mostrar
+                    reservacion.NombreCliente = reader.GetString(reader.GetOrdinal("NombreCliente")) + " " + reader.GetString(reader.GetOrdinal("ApellidosCliente"));
+                    reservacion.NombreHotel = reader.GetString(reader.GetOrdinal("NombreHotel"));
+                    reservacion.RFCCliente = reader.GetString(reader.GetOrdinal("RFCCliente"));
+                }
+                reader.Close(); // Cierra el primer reader
+
+                // Si se encontró la reserva principal, busca sus detalles
+                if (reservacion != null)
+                {
+                    string queryDetalles = @"
+                SELECT DR.IdDetalleReservacion, DR.IdTipoHabitacion, DR.IdHabitacion,
+                       DR.NroPersonas, DR.PrecioNoche,
+                       T.Nivel AS NivelTipoHabitacion, H.NroHabitacion AS NroHabitacionFisica
+                FROM DETALLE_RESERVACION DR
+                INNER JOIN TIPO_HABITACION T ON DR.IdTipoHabitacion = T.IdTipoHabitacion
+                LEFT JOIN HABITACION H ON DR.IdHabitacion = H.IdHabitacion -- LEFT JOIN por si algo falló en CheckIn
+                WHERE DR.IdReservacion = @IdReservacion;
+            ";
+                    SqlCommand comandoDetalles = new SqlCommand(queryDetalles, conexion);
+                    comandoDetalles.Parameters.AddWithValue("@IdReservacion", idReservacion);
+                    reader = comandoDetalles.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        DetalleReservacion detalle = new DetalleReservacion();
+                        detalle.IdDetalleReservacion = reader.GetInt32(reader.GetOrdinal("IdDetalleReservacion"));
+                        detalle.IdTipoHabitacion = reader.GetInt32(reader.GetOrdinal("IdTipoHabitacion"));
+                        detalle.IdHabitacion = reader.IsDBNull(reader.GetOrdinal("IdHabitacion")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("IdHabitacion"));
+                        detalle.NroPersonas = reader.GetInt32(reader.GetOrdinal("NroPersonas"));
+                        detalle.PrecioNoche = reader.GetDecimal(reader.GetOrdinal("PrecioNoche"));
+                        detalle.NivelTipoHabitacion = reader.GetString(reader.GetOrdinal("NivelTipoHabitacion"));
+                        detalle.NroHabitacionFisica = reader.IsDBNull(reader.GetOrdinal("NroHabitacionFisica")) ? "N/A" : reader.GetString(reader.GetOrdinal("NroHabitacionFisica"));
+
+                        reservacion.Detalles.Add(detalle); // Agrega a la lista dentro del objeto Reservacion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error en ReservacionDAO.ObtenerReservacionParaCheckout: " + ex.ToString());
+                throw;
+            }
+            finally
+            {
+                reader?.Close();
+                conexion?.Close();
+            }
+            return reservacion; // Devuelve null si no se encontró o no estaba 'En-Curso'
+        }
+        public static int ActualizarEstadoReserva(Guid idReservacion, string nuevoEstado, SqlConnection conexion, SqlTransaction transaction)
+        {
+            string query = "UPDATE RESERVACION SET Estado = @NuevoEstado WHERE IdReservacion = @IdReservacion;";
+            SqlCommand comando = new SqlCommand(query, conexion, transaction);
+            comando.Parameters.AddWithValue("@NuevoEstado", nuevoEstado);
+            comando.Parameters.AddWithValue("@IdReservacion", idReservacion);
+            return comando.ExecuteNonQuery();
+        }
     }
 }

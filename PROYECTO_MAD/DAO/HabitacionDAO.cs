@@ -148,5 +148,22 @@ namespace PROYECTO_MAD.DAO
             finally { reader?.Close(); conexion?.Close(); }
             return lista;
         }
+        public static int MarcarHabitacionesDisponibles(List<int> idsHabitaciones, SqlConnection conexion, SqlTransaction transaction)
+        {
+            if (idsHabitaciones == null || idsHabitaciones.Count == 0)
+            {
+                return 0; // No hay nada que actualizar
+            }
+
+            // Crea una cadena de IDs separados por coma (ej: 101, 105, 203)
+            string idsParam = string.Join(",", idsHabitaciones);
+
+            // Query que actualiza múltiples habitaciones usando IN
+            string query = $"UPDATE HABITACION SET Estado = 'Disponible' WHERE IdHabitacion IN ({idsParam});";
+
+            SqlCommand comando = new SqlCommand(query, conexion, transaction);
+
+            return comando.ExecuteNonQuery();
+        }
     }
 }

@@ -30,36 +30,34 @@
         {
             this.btnbuscar = new FontAwesome.Sharp.IconButton();
             this.btnlimpiar = new FontAwesome.Sharp.IconButton();
-            this.txtbusqueda = new System.Windows.Forms.TextBox();
+            this.txtCodigoBusqueda = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.gbResumen = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.cbMetodoPago = new System.Windows.Forms.ComboBox();
+            this.lblAnticipoPagado = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.lblTotalHospedaje = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblMontoPendiente = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.btnconfirmarreservacion = new FontAwesome.Sharp.IconButton();
+            this.btnConfirmarCheckOut = new FontAwesome.Sharp.IconButton();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.lblHotel = new System.Windows.Forms.Label();
+            this.lblFechaCheckIn = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.dgvDetalleFactura = new System.Windows.Forms.DataGridView();
+            this.lblFechaCheckOut = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.ConceptoCheckOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MontoCheckOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.groupBox3.SuspendLayout();
+            this.lblRFC = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.gbResumen.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleFactura)).BeginInit();
             this.SuspendLayout();
             // 
             // btnbuscar
@@ -94,13 +92,12 @@
             this.btnlimpiar.UseVisualStyleBackColor = false;
             this.btnlimpiar.Click += new System.EventHandler(this.btnlimpiar_Click);
             // 
-            // txtbusqueda
+            // txtCodigoBusqueda
             // 
-            this.txtbusqueda.Location = new System.Drawing.Point(433, 17);
-            this.txtbusqueda.Name = "txtbusqueda";
-            this.txtbusqueda.Size = new System.Drawing.Size(165, 20);
-            this.txtbusqueda.TabIndex = 31;
-            this.txtbusqueda.TextChanged += new System.EventHandler(this.txtbusqueda_TextChanged);
+            this.txtCodigoBusqueda.Location = new System.Drawing.Point(433, 17);
+            this.txtCodigoBusqueda.Name = "txtCodigoBusqueda";
+            this.txtCodigoBusqueda.Size = new System.Drawing.Size(165, 20);
+            this.txtCodigoBusqueda.TabIndex = 31;
             // 
             // label1
             // 
@@ -111,38 +108,95 @@
             this.label1.Size = new System.Drawing.Size(134, 20);
             this.label1.TabIndex = 52;
             this.label1.Text = "Codigo de reservacion:";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
             // 
-            // groupBox3
+            // gbResumen
             // 
-            this.groupBox3.BackColor = System.Drawing.Color.White;
-            this.groupBox3.Controls.Add(this.label16);
-            this.groupBox3.Controls.Add(this.comboBox1);
-            this.groupBox3.Controls.Add(this.label15);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.btnconfirmarreservacion);
-            this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(-5, 343);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(747, 138);
-            this.groupBox3.TabIndex = 54;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Resumen y Confirmacion";
+            this.gbResumen.BackColor = System.Drawing.Color.White;
+            this.gbResumen.Controls.Add(this.label16);
+            this.gbResumen.Controls.Add(this.cbMetodoPago);
+            this.gbResumen.Controls.Add(this.lblAnticipoPagado);
+            this.gbResumen.Controls.Add(this.label10);
+            this.gbResumen.Controls.Add(this.lblTotalHospedaje);
+            this.gbResumen.Controls.Add(this.label7);
+            this.gbResumen.Controls.Add(this.lblMontoPendiente);
+            this.gbResumen.Controls.Add(this.label8);
+            this.gbResumen.Controls.Add(this.btnConfirmarCheckOut);
+            this.gbResumen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gbResumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbResumen.Location = new System.Drawing.Point(-5, 343);
+            this.gbResumen.Name = "gbResumen";
+            this.gbResumen.Size = new System.Drawing.Size(747, 138);
+            this.gbResumen.TabIndex = 54;
+            this.gbResumen.TabStop = false;
+            this.gbResumen.Text = "Resumen y Confirmacion";
             // 
-            // label2
+            // label16
             // 
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(211, 101);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(296, 22);
-            this.label2.TabIndex = 38;
-            this.label2.Text = "$0.00";
+            this.label16.BackColor = System.Drawing.Color.White;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(369, 40);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(138, 31);
+            this.label16.TabIndex = 62;
+            this.label16.Text = "Metodo de Pago:";
+            // 
+            // cbMetodoPago
+            // 
+            this.cbMetodoPago.FormattingEnabled = true;
+            this.cbMetodoPago.Location = new System.Drawing.Point(513, 36);
+            this.cbMetodoPago.Name = "cbMetodoPago";
+            this.cbMetodoPago.Size = new System.Drawing.Size(222, 28);
+            this.cbMetodoPago.TabIndex = 61;
+            // 
+            // lblAnticipoPagado
+            // 
+            this.lblAnticipoPagado.BackColor = System.Drawing.Color.White;
+            this.lblAnticipoPagado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAnticipoPagado.Location = new System.Drawing.Point(163, 60);
+            this.lblAnticipoPagado.Name = "lblAnticipoPagado";
+            this.lblAnticipoPagado.Size = new System.Drawing.Size(212, 20);
+            this.lblAnticipoPagado.TabIndex = 60;
+            this.lblAnticipoPagado.Text = "$0.00";
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.Color.White;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(17, 58);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(140, 31);
+            this.label10.TabIndex = 59;
+            this.label10.Text = "Anticipo Pagado:";
+            // 
+            // lblTotalHospedaje
+            // 
+            this.lblTotalHospedaje.BackColor = System.Drawing.Color.White;
+            this.lblTotalHospedaje.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalHospedaje.Location = new System.Drawing.Point(161, 29);
+            this.lblTotalHospedaje.Name = "lblTotalHospedaje";
+            this.lblTotalHospedaje.Size = new System.Drawing.Size(214, 20);
+            this.lblTotalHospedaje.TabIndex = 58;
+            this.lblTotalHospedaje.Text = "$0.00";
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.White;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(17, 27);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(138, 31);
+            this.label7.TabIndex = 42;
+            this.label7.Text = "Total Hospedaje:";
+            // 
+            // lblMontoPendiente
+            // 
+            this.lblMontoPendiente.BackColor = System.Drawing.Color.White;
+            this.lblMontoPendiente.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMontoPendiente.Location = new System.Drawing.Point(211, 101);
+            this.lblMontoPendiente.Name = "lblMontoPendiente";
+            this.lblMontoPendiente.Size = new System.Drawing.Size(296, 22);
+            this.lblMontoPendiente.TabIndex = 38;
+            this.lblMontoPendiente.Text = "$0.00";
             // 
             // label8
             // 
@@ -154,25 +208,26 @@
             this.label8.TabIndex = 37;
             this.label8.Text = "MONTO PENDIENTE:";
             // 
-            // btnconfirmarreservacion
+            // btnConfirmarCheckOut
             // 
-            this.btnconfirmarreservacion.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnconfirmarreservacion.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnconfirmarreservacion.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnconfirmarreservacion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnconfirmarreservacion.ForeColor = System.Drawing.Color.White;
-            this.btnconfirmarreservacion.IconChar = FontAwesome.Sharp.IconChar.CircleCheck;
-            this.btnconfirmarreservacion.IconColor = System.Drawing.Color.White;
-            this.btnconfirmarreservacion.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnconfirmarreservacion.IconSize = 20;
-            this.btnconfirmarreservacion.Location = new System.Drawing.Point(513, 91);
-            this.btnconfirmarreservacion.Name = "btnconfirmarreservacion";
-            this.btnconfirmarreservacion.Size = new System.Drawing.Size(222, 32);
-            this.btnconfirmarreservacion.TabIndex = 23;
-            this.btnconfirmarreservacion.Text = "Confirmar CheckOut";
-            this.btnconfirmarreservacion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnconfirmarreservacion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnconfirmarreservacion.UseVisualStyleBackColor = false;
+            this.btnConfirmarCheckOut.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnConfirmarCheckOut.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConfirmarCheckOut.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnConfirmarCheckOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfirmarCheckOut.ForeColor = System.Drawing.Color.White;
+            this.btnConfirmarCheckOut.IconChar = FontAwesome.Sharp.IconChar.CircleCheck;
+            this.btnConfirmarCheckOut.IconColor = System.Drawing.Color.White;
+            this.btnConfirmarCheckOut.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnConfirmarCheckOut.IconSize = 20;
+            this.btnConfirmarCheckOut.Location = new System.Drawing.Point(513, 91);
+            this.btnConfirmarCheckOut.Name = "btnConfirmarCheckOut";
+            this.btnConfirmarCheckOut.Size = new System.Drawing.Size(222, 32);
+            this.btnConfirmarCheckOut.TabIndex = 23;
+            this.btnConfirmarCheckOut.Text = "Confirmar CheckOut";
+            this.btnConfirmarCheckOut.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnConfirmarCheckOut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnConfirmarCheckOut.UseVisualStyleBackColor = false;
+            this.btnConfirmarCheckOut.Click += new System.EventHandler(this.btnConfirmarCheckOut_Click);
             // 
             // label13
             // 
@@ -215,47 +270,47 @@
             this.label14.TabIndex = 41;
             this.label14.Text = "Fecha de Check In:";
             // 
-            // label17
+            // lblCliente
             // 
-            this.label17.BackColor = System.Drawing.Color.White;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(88, 24);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(164, 20);
-            this.label17.TabIndex = 44;
-            this.label17.Text = "#####################";
+            this.lblCliente.BackColor = System.Drawing.Color.White;
+            this.lblCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCliente.Location = new System.Drawing.Point(88, 24);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(164, 20);
+            this.lblCliente.TabIndex = 44;
+            this.lblCliente.Text = "#####################";
             // 
-            // label18
+            // lblHotel
             // 
-            this.label18.BackColor = System.Drawing.Color.White;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(88, 53);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(164, 20);
-            this.label18.TabIndex = 49;
-            this.label18.Text = "#####################";
+            this.lblHotel.BackColor = System.Drawing.Color.White;
+            this.lblHotel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHotel.Location = new System.Drawing.Point(88, 53);
+            this.lblHotel.Name = "lblHotel";
+            this.lblHotel.Size = new System.Drawing.Size(164, 20);
+            this.lblHotel.TabIndex = 49;
+            this.lblHotel.Text = "#####################";
             // 
-            // label22
+            // lblFechaCheckIn
             // 
-            this.label22.BackColor = System.Drawing.Color.White;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(182, 84);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(164, 20);
-            this.label22.TabIndex = 50;
-            this.label22.Text = "#####################";
+            this.lblFechaCheckIn.BackColor = System.Drawing.Color.White;
+            this.lblFechaCheckIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaCheckIn.Location = new System.Drawing.Point(182, 84);
+            this.lblFechaCheckIn.Name = "lblFechaCheckIn";
+            this.lblFechaCheckIn.Size = new System.Drawing.Size(164, 20);
+            this.lblFechaCheckIn.TabIndex = 50;
+            this.lblFechaCheckIn.Text = "#####################";
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.dgvDetalleFactura);
+            this.groupBox1.Controls.Add(this.lblFechaCheckOut);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.lblRFC);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label22);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.lblFechaCheckIn);
+            this.groupBox1.Controls.Add(this.lblHotel);
+            this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.label11);
@@ -268,35 +323,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Detalle Factura";
             // 
-            // label3
+            // dgvDetalleFactura
             // 
-            this.label3.BackColor = System.Drawing.Color.White;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(500, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 31);
-            this.label3.TabIndex = 53;
-            this.label3.Text = "RFC:";
+            this.dgvDetalleFactura.AllowUserToAddRows = false;
+            this.dgvDetalleFactura.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDetalleFactura.Location = new System.Drawing.Point(10, 107);
+            this.dgvDetalleFactura.Name = "dgvDetalleFactura";
+            this.dgvDetalleFactura.Size = new System.Drawing.Size(731, 183);
+            this.dgvDetalleFactura.TabIndex = 57;
             // 
-            // label4
+            // lblFechaCheckOut
             // 
-            this.label4.BackColor = System.Drawing.Color.White;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(571, 22);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(164, 20);
-            this.label4.TabIndex = 54;
-            this.label4.Text = "#####################";
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.White;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(571, 84);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(164, 20);
-            this.label5.TabIndex = 56;
-            this.label5.Text = "#####################";
+            this.lblFechaCheckOut.BackColor = System.Drawing.Color.White;
+            this.lblFechaCheckOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaCheckOut.Location = new System.Drawing.Point(571, 84);
+            this.lblFechaCheckOut.Name = "lblFechaCheckOut";
+            this.lblFechaCheckOut.Size = new System.Drawing.Size(164, 20);
+            this.lblFechaCheckOut.TabIndex = 56;
+            this.lblFechaCheckOut.Text = "#####################";
             // 
             // label6
             // 
@@ -308,87 +352,25 @@
             this.label6.TabIndex = 55;
             this.label6.Text = "Fecha de CheckOut:";
             // 
-            // dataGridView1
+            // lblRFC
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ConceptoCheckOut,
-            this.MontoCheckOut});
-            this.dataGridView1.Location = new System.Drawing.Point(10, 107);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(731, 183);
-            this.dataGridView1.TabIndex = 57;
+            this.lblRFC.BackColor = System.Drawing.Color.White;
+            this.lblRFC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRFC.Location = new System.Drawing.Point(571, 22);
+            this.lblRFC.Name = "lblRFC";
+            this.lblRFC.Size = new System.Drawing.Size(164, 20);
+            this.lblRFC.TabIndex = 54;
+            this.lblRFC.Text = "#####################";
             // 
-            // label7
+            // label3
             // 
-            this.label7.BackColor = System.Drawing.Color.White;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(17, 27);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(138, 31);
-            this.label7.TabIndex = 42;
-            this.label7.Text = "Total Hospedaje:";
-            // 
-            // label9
-            // 
-            this.label9.BackColor = System.Drawing.Color.White;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(161, 29);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(214, 20);
-            this.label9.TabIndex = 58;
-            this.label9.Text = "$0.00";
-            // 
-            // label10
-            // 
-            this.label10.BackColor = System.Drawing.Color.White;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(17, 58);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(140, 31);
-            this.label10.TabIndex = 59;
-            this.label10.Text = "Anticipo Pagado:";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
-            // 
-            // label15
-            // 
-            this.label15.BackColor = System.Drawing.Color.White;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(163, 60);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(212, 20);
-            this.label15.TabIndex = 60;
-            this.label15.Text = "$0.00";
-            // 
-            // ConceptoCheckOut
-            // 
-            this.ConceptoCheckOut.HeaderText = "Concepto";
-            this.ConceptoCheckOut.Name = "ConceptoCheckOut";
-            this.ConceptoCheckOut.ReadOnly = true;
-            // 
-            // MontoCheckOut
-            // 
-            this.MontoCheckOut.HeaderText = "Monto";
-            this.MontoCheckOut.Name = "MontoCheckOut";
-            this.MontoCheckOut.ReadOnly = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(513, 36);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(222, 28);
-            this.comboBox1.TabIndex = 61;
-            // 
-            // label16
-            // 
-            this.label16.BackColor = System.Drawing.Color.White;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(369, 40);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(138, 31);
-            this.label16.TabIndex = 62;
-            this.label16.Text = "Metodo de Pago:";
+            this.label3.BackColor = System.Drawing.Color.White;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(500, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 31);
+            this.label3.TabIndex = 53;
+            this.label3.Text = "RFC:";
             // 
             // frmCheckout
             // 
@@ -396,18 +378,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(742, 481);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.gbResumen);
             this.Controls.Add(this.btnlimpiar);
             this.Controls.Add(this.btnbuscar);
-            this.Controls.Add(this.txtbusqueda);
+            this.Controls.Add(this.txtCodigoBusqueda);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label13);
             this.Name = "frmCheckout";
             this.Text = "frmCheckout";
-            this.groupBox3.ResumeLayout(false);
+            this.gbResumen.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleFactura)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -416,32 +398,30 @@
         #endregion
         private FontAwesome.Sharp.IconButton btnbuscar;
         private FontAwesome.Sharp.IconButton btnlimpiar;
-        private System.Windows.Forms.TextBox txtbusqueda;
+        private System.Windows.Forms.TextBox txtCodigoBusqueda;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private FontAwesome.Sharp.IconButton btnconfirmarreservacion;
+        private System.Windows.Forms.GroupBox gbResumen;
+        private FontAwesome.Sharp.IconButton btnConfirmarCheckOut;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblMontoPendiente;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label lblCliente;
+        private System.Windows.Forms.Label lblHotel;
+        private System.Windows.Forms.Label lblFechaCheckIn;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblRFC;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblFechaCheckOut;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvDetalleFactura;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblTotalHospedaje;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ConceptoCheckOut;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MontoCheckOut;
+        private System.Windows.Forms.Label lblAnticipoPagado;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbMetodoPago;
     }
 }

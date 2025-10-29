@@ -26,6 +26,7 @@ namespace PROYECTO_MAD.Entidad
         // Propiedades Adicionales
         public string NombreCliente { get; set; }
         public string NombreHotel { get; set; }
+        public string RFCCliente { get; set; }
 
         public Reservacion()
         {
