@@ -197,7 +197,7 @@ namespace PROYECTO_MAD
         {
             if (ValidarPermiso("menucheckin"))
             {
-                AbrirForm(new frmCheckin(), true);
+                AbrirForm(new frmCheckin(usuarioActual), true);
 
             }
             else

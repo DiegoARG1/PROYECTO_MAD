@@ -205,6 +205,113 @@ namespace PROYECTO_MAD.DAO
                 conexion?.Close();
             }
         }
+        public static List<DetalleReservacion> ObtenerDetallesSinAsignar(Guid idReservacion)
+        {
+            List<DetalleReservacion> lista = new List<DetalleReservacion>();
+            SqlConnection conexion = null;
+            SqlDataReader reader = null;
+            try
+            {
+                conexion = BDConexion.ObtenerConexion();
+                if (conexion == null) throw new Exception("No se pudo conectar a la BD.");
 
+                // La habitacion del detalle de la reservacion debe ser null
+                string query = @"
+                SELECT DR.IdDetalleReservacion, DR.IdTipoHabitacion, DR.NroPersonas,
+                   T.Nivel AS NivelTipoHabitacion
+                FROM DETALLE_RESERVACION DR
+                INNER JOIN TIPO_HABITACION T ON DR.IdTipoHabitacion = T.IdTipoHabitacion
+                WHERE DR.IdReservacion = @IdReservacion AND DR.IdHabitacion IS NULL;
+                ";
+                SqlCommand comando = new SqlCommand(query, conexion);
+                comando.Parameters.AddWithValue("@IdReservacion", idReservacion);
+                reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    DetalleReservacion detalle = new DetalleReservacion();
+                    detalle.IdDetalleReservacion = reader.GetInt32(reader.GetOrdinal("IdDetalleReservacion"));
+                    detalle.IdTipoHabitacion = reader.GetInt32(reader.GetOrdinal("IdTipoHabitacion"));
+                    detalle.NroPersonas = reader.GetInt32(reader.GetOrdinal("NroPersonas"));
+                    detalle.NivelTipoHabitacion = reader.GetString(reader.GetOrdinal("NivelTipoHabitacion"));
+                    lista.Add(detalle);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error en ReservacionDAO.ObtenerDetallesSinAsignar: " + ex.ToString());
+                throw;
+            }
+            finally
+            {
+                reader?.Close();
+                conexion?.Close();
+            }
+            return lista;
+        }
+        public static bool AsignarHabitacionCheckIn(List<Tuple<int, int>> asignaciones, Guid idReservacion)
+        {
+            SqlConnection conexion = null;
+            SqlTransaction transaction = null;
+            int totalFilasAfectadas = 0;
+
+            try
+            {
+                conexion = BDConexion.ObtenerConexion();
+                if (conexion == null) throw new Exception("No se pudo conectar a la BD.");
+                transaction = conexion.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                // Actualiza DETALLE_RESERVACION y HABITACION por cada asignacion
+                string queryUpdateDetalle = "UPDATE DETALLE_RESERVACION SET IdHabitacion = @IdHabitacion WHERE IdDetalleReservacion = @IdDetalleReservacion;";
+                string queryUpdateHabitacion = "UPDATE HABITACION SET Estado = 'Ocupada' WHERE IdHabitacion = @IdHabitacion;";
+
+                foreach (var asignacion in asignaciones)
+                {
+                    int idDetalle = asignacion.Item1;
+                    int idHabitacion = asignacion.Item2;
+
+                    // Actualizar Detalle
+                    SqlCommand cmdDetalle = new SqlCommand(queryUpdateDetalle, conexion, transaction);
+                    cmdDetalle.Parameters.AddWithValue("@IdHabitacion", idHabitacion);
+                    cmdDetalle.Parameters.AddWithValue("@IdDetalleReservacion", idDetalle);
+                    totalFilasAfectadas += cmdDetalle.ExecuteNonQuery();
+
+                    // Actualizar Habitacion
+                    SqlCommand cmdHabitacion = new SqlCommand(queryUpdateHabitacion, conexion, transaction);
+                    cmdHabitacion.Parameters.AddWithValue("@IdHabitacion", idHabitacion);
+                    totalFilasAfectadas += cmdHabitacion.ExecuteNonQuery();
+                }
+
+                // Actualizar el estado de RESERVACION
+                string queryUpdateReserva = "UPDATE RESERVACION SET Estado = 'En-Curso' WHERE IdReservacion = @IdReservacion;";
+                SqlCommand cmdReserva = new SqlCommand(queryUpdateReserva, conexion, transaction);
+                cmdReserva.Parameters.AddWithValue("@IdReservacion", idReservacion);
+                totalFilasAfectadas += cmdReserva.ExecuteNonQuery();
+
+                // Verificacion: Se deben haber afectado 2 filas por cada asignación + 1 fila de la reserva
+                if (totalFilasAfectadas == (asignaciones.Count * 2) + 1)
+                {
+                    transaction.Commit();
+                    return true;
+                }
+                else
+                {
+                    // si el numero de filas no coincide fallo
+                    transaction.Rollback();
+                    Console.WriteLine($"Error en CheckIn: Se esperaban {(asignaciones.Count * 2) + 1} filas afectadas, pero fueron {totalFilasAfectadas}.");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                try { transaction?.Rollback(); } catch { /* Ignorar error de rollback */ }
+                Console.WriteLine("Error en ReservacionDAO.AsignarHabitacionCheckIn: " + ex.ToString());
+                throw;
+            }
+            finally
+            {
+                conexion?.Close();
+            }
+        }
     }
 }

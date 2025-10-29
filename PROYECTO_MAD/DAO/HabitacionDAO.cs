@@ -114,5 +114,39 @@ namespace PROYECTO_MAD.DAO
                 return comando.ExecuteNonQuery();
             }
         }
+        public static List<Habitacion> ObtenerHabitacionesFisicasDisponibles(int idTipoHabitacion)
+        {
+            List<Habitacion> lista = new List<Habitacion>();
+            SqlConnection conexion = null;
+            SqlDataReader reader = null;
+            try
+            {
+                conexion = BDConexion.ObtenerConexion();
+                if (conexion == null) throw new Exception("No se pudo conectar a la BD.");
+
+                // Busca habitaciones por tipo y estado 'Disponible'
+                string query = @"
+                SELECT IdHabitacion, NroHabitacion
+                FROM HABITACION
+                WHERE IdTipoHabitacion = @IdTipoHabitacion AND Estado = 'Disponible'
+                ORDER BY NroHabitacion;
+                ";
+                SqlCommand comando = new SqlCommand(query, conexion);
+                comando.Parameters.AddWithValue("@IdTipoHabitacion", idTipoHabitacion);
+                reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    // Solo necesitamos ID y Numero para el ComboBox del DataGridView
+                    Habitacion hab = new Habitacion();
+                    hab.IdHabitacion = reader.GetInt32(reader.GetOrdinal("IdHabitacion"));
+                    hab.NroHabitacion = reader.GetString(reader.GetOrdinal("NroHabitacion"));
+                    lista.Add(hab);
+                }
+            }
+            catch (Exception ex) { Console.WriteLine("Error: " + ex.Message); throw; }
+            finally { reader?.Close(); conexion?.Close(); }
+            return lista;
+        }
     }
 }
