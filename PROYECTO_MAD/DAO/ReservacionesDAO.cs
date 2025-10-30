@@ -406,5 +406,83 @@ namespace PROYECTO_MAD.DAO
             comando.Parameters.AddWithValue("@IdReservacion", idReservacion);
             return comando.ExecuteNonQuery();
         }
+
+        public static List<HistorialCliente> ObtenerHistorialCliente(int idCliente, int? anio)
+        {
+            List<HistorialCliente> historial = new List<HistorialCliente>();
+            SqlConnection conexion = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                conexion = BDConexion.ObtenerConexion();
+                if (conexion == null) throw new Exception("No se pudo conectar a la BD.");
+
+                string query = @"
+                SELECT
+                    C.Nombre + ' ' + C.Apellidos AS NombreCliente,
+                    D.Ciudad,
+                    H.Nombre AS Hotel,
+                    (SELECT SUM(ISNULL(DR.NroPersonas, 0)) FROM DETALLE_RESERVACION DR WHERE DR.IdReservacion = R.IdReservacion) AS NumeroPersonasHospedadas,
+                    R.IdReservacion AS CodigoReservacion,
+                    R.FechaReservacion,
+                    R.FechaEntrada AS FechaCheckIn,
+                    ISNULL(F.FechaEmision, R.FechaSalida) AS FechaCheckOut,
+                    R.Estado AS EstatusReservacion,
+                    R.Anticipo,
+                    F.TotalHospedaje AS MontoHospedaje,
+                    (ISNULL(F.TotalHospedaje, 0) - ISNULL(F.MontoAnticipo, 0)) + ISNULL(F.MontoPendientePagado, 0) AS TotalFactura
+                FROM RESERVACION R
+                INNER JOIN CLIENTE C ON R.IdCliente = C.IdCliente
+                INNER JOIN HOTEL H ON R.IdHotel = H.IdHotel
+                INNER JOIN DOMICILIO D ON H.IdDomicilio = D.IdDomicilio
+                LEFT JOIN FACTURAS F ON R.IdReservacion = F.IdReservacion
+                WHERE R.IdCliente = @IdCliente
+                  AND (@Anio IS NULL OR YEAR(R.FechaReservacion) = @Anio)
+                ORDER BY R.FechaReservacion DESC;
+                ";
+
+                SqlCommand comando = new SqlCommand(query, conexion);
+                comando.Parameters.AddWithValue("@IdCliente", idCliente);
+                if (anio.HasValue)
+                    comando.Parameters.AddWithValue("@Anio", anio.Value);
+                else
+                    comando.Parameters.AddWithValue("@Anio", DBNull.Value);
+
+                reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    HistorialCliente item = new HistorialCliente();
+                    item.NombreCliente = reader.GetString(reader.GetOrdinal("NombreCliente"));
+                    item.Ciudad = reader.GetString(reader.GetOrdinal("Ciudad"));
+                    item.Hotel = reader.GetString(reader.GetOrdinal("Hotel"));
+                    item.NumeroPersonasHospedadas = reader.IsDBNull(reader.GetOrdinal("NumeroPersonasHospedadas")) ? 0 : reader.GetInt32(reader.GetOrdinal("NumeroPersonasHospedadas"));
+                    item.CodigoReservacion = reader.GetGuid(reader.GetOrdinal("CodigoReservacion"));
+                    item.FechaReservacion = reader.GetDateTime(reader.GetOrdinal("FechaReservacion"));
+                    item.FechaCheckIn = reader.IsDBNull(reader.GetOrdinal("FechaCheckIn")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("FechaCheckIn"));
+                    item.FechaCheckOut = reader.IsDBNull(reader.GetOrdinal("FechaCheckOut")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("FechaCheckOut"));
+                    item.EstatusReservacion = reader.GetString(reader.GetOrdinal("EstatusReservacion"));
+                    item.Anticipo = reader.GetDecimal(reader.GetOrdinal("Anticipo"));
+                    item.MontoHospedaje = reader.IsDBNull(reader.GetOrdinal("MontoHospedaje")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("MontoHospedaje"));
+                    item.TotalFactura = reader.IsDBNull(reader.GetOrdinal("TotalFactura")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("TotalFactura"));
+                    // Asegura que TotalFactura sea null si no hay MontoHospedaje
+                    if (!item.MontoHospedaje.HasValue) item.TotalFactura = null;
+
+                    historial.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error en ReservacionDAO.ObtenerHistorialCliente: " + ex.ToString());
+                throw;
+            }
+            finally
+            {
+                reader?.Close();
+                conexion?.Close();
+            }
+            return historial;
+        }
     }
 }

@@ -70,6 +70,7 @@
     <Compile Include="Entidad\Domicilio.cs" />
     <Compile Include="Entidad\Factura.cs" />
     <Compile Include="Entidad\Habitacion.cs" />
+    <Compile Include="Entidad\HistorialCliente.cs" />
     <Compile Include="Entidad\Hotel.cs" />
     <Compile Include="Entidad\Permiso.cs" />
     <Compile Include="Entidad\ReporteOcupacion.cs" />
