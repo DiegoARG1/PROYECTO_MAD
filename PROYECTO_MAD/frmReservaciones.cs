@@ -112,6 +112,13 @@ namespace PROYECTO_MAD
 
             // Habilita/Deshabilita el botón de confirmar basado en si hay algo seleccionado
             btnConfirmarreservacion.Enabled = (montoTotal > 0);
+
+            nudAnticipo.Maximum = montoTotal;
+
+            if (nudAnticipo.Value > montoTotal)
+            {
+                nudAnticipo.Value = montoTotal;
+            }
         }
         private int CalcularNoches()
         {
@@ -144,7 +151,7 @@ namespace PROYECTO_MAD
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string criterio = cbFiltro.SelectedItem?.ToString();
-            string valor = txtBusqueda.Text.Trim().Replace("\r", "").Replace("\n", ""); ;
+            string valor = txtBusqueda.Text.Trim().Replace("\r", "").Replace("\n", "");
 
             if (string.IsNullOrEmpty(criterio) || string.IsNullOrEmpty(valor))
             {

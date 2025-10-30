@@ -123,7 +123,7 @@ namespace PROYECTO_MAD
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string criterio = cboBuscarPor.SelectedItem?.ToString();
-            string valor = txtValorBusqueda.Text.Trim();
+            string valor = txtValorBusqueda.Text.Trim().Replace("\r", "").Replace("\n", "");
 
             if (string.IsNullOrEmpty(criterio) || string.IsNullOrEmpty(valor))
             {
