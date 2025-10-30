@@ -127,7 +127,33 @@ namespace PROYECTO_MAD
 
             if (string.IsNullOrEmpty(criterio) || string.IsNullOrEmpty(valor))
             {
-                MessageBox.Show("Seleccione criterio y valor para buscar.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning); return;
+                try
+                {
+                    List<Cliente> resultados = ClienteDAO.ObtenerClientes();
+                    dgvHistorial.DataSource = null;
+
+                    if (resultados.Count == 0)
+                    {
+                        MessageBox.Show("No se encontraron clientes.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        clienteSeleccionado = null;
+                    }
+                    else if (resultados.Count == 1)
+                    {
+                        clienteSeleccionado = resultados[0];
+                        GenerarReporte();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Se encontraron {resultados.Count} clientes. Mostrando historial del primero. Refine la búsqueda si es necesario.", "Múltiples Resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        clienteSeleccionado = resultados[0];
+                        GenerarReporte();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al buscar cliente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    clienteSeleccionado = null;
+                }
             }
 
             try

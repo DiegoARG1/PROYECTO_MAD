@@ -155,8 +155,34 @@ namespace PROYECTO_MAD
 
             if (string.IsNullOrEmpty(criterio) || string.IsNullOrEmpty(valor))
             {
-                MessageBox.Show("Por favor, seleccione un criterio y escriba un valor para buscar.", "Búsqueda Incompleta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                try
+                {
+                    List<Cliente> resultados = ClienteDAO.ObtenerClientes();
+
+                    dgvCliente.AutoGenerateColumns = false;
+
+                    dgvCliente.Columns["NombreCliente"].DataPropertyName = "Nombre";
+                    dgvCliente.Columns["ApellidosCliente"].DataPropertyName = "Apellidos";
+                    dgvCliente.Columns["RfcCliente"].DataPropertyName = "Rfc";
+                    dgvCliente.Columns["CorreoCliente"].DataPropertyName = "CorreoElectronico";
+                    dgvCliente.Columns["TelefonoCliente"].DataPropertyName = "Telefono";
+
+                    dgvCliente.DataSource = resultados;
+
+                    if (resultados.Count == 0)
+                    {
+                        MessageBox.Show("No se encontraron clientes que coincidan con la búsqueda.", "Sin Resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (ArgumentException argEx)
+                {
+                    MessageBox.Show(argEx.Message, "Error de Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al buscar clientes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvCliente.DataSource = null;
+                }
             }
 
             try
@@ -453,7 +479,7 @@ namespace PROYECTO_MAD
             if (recalcular)
             {
                 // Calcular Subtotal
-                decimal subtotal = noches * personas * precio;
+                decimal subtotal = noches * cantidad * precio;
                 fila.Cells["SubTotalReservacion"].Value = subtotal;
                 RecalcularMontoTotal();
             }

@@ -119,14 +119,14 @@
             // submenutipohabitaciones
             // 
             this.submenutipohabitaciones.Name = "submenutipohabitaciones";
-            this.submenutipohabitaciones.Size = new System.Drawing.Size(224, 22);
+            this.submenutipohabitaciones.Size = new System.Drawing.Size(223, 22);
             this.submenutipohabitaciones.Text = "Registrar Tipo de Habitacion";
             this.submenutipohabitaciones.Click += new System.EventHandler(this.registrarTipoDeHabitacionToolStripMenuItem_Click);
             // 
             // submenuhabitaciones
             // 
             this.submenuhabitaciones.Name = "submenuhabitaciones";
-            this.submenuhabitaciones.Size = new System.Drawing.Size(224, 22);
+            this.submenuhabitaciones.Size = new System.Drawing.Size(223, 22);
             this.submenuhabitaciones.Text = "Registrar Habitaciones";
             this.submenuhabitaciones.Click += new System.EventHandler(this.registrarHabitacionesToolStripMenuItem_Click);
             // 
@@ -287,7 +287,7 @@
             this.contenedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contenedor.Location = new System.Drawing.Point(0, 133);
             this.contenedor.Name = "contenedor";
-            this.contenedor.Size = new System.Drawing.Size(1349, 725);
+            this.contenedor.Size = new System.Drawing.Size(1349, 616);
             this.contenedor.TabIndex = 3;
             this.contenedor.Paint += new System.Windows.Forms.PaintEventHandler(this.contenedor_Paint);
             // 
@@ -295,7 +295,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1349, 858);
+            this.ClientSize = new System.Drawing.Size(1349, 749);
             this.Controls.Add(this.contenedor);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menu);
