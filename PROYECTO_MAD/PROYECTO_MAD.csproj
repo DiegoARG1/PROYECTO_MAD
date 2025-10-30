@@ -60,6 +60,7 @@
     <Compile Include="DAO\HabitacionDAO.cs" />
     <Compile Include="DAO\HotelDAO.cs" />
     <Compile Include="DAO\PermisoDAO.cs" />
+    <Compile Include="DAO\ReporteDAO.cs" />
     <Compile Include="DAO\ReservacionesDAO.cs" />
     <Compile Include="DAO\RolDAO.cs" />
     <Compile Include="DAO\TipoHabitacionDAO.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Entidad\Habitacion.cs" />
     <Compile Include="Entidad\Hotel.cs" />
     <Compile Include="Entidad\Permiso.cs" />
+    <Compile Include="Entidad\ReporteOcupacion.cs" />
     <Compile Include="Entidad\Reservacion.cs" />
     <Compile Include="Entidad\Rol.cs" />
     <Compile Include="Entidad\TipoHabitacion.cs" />
