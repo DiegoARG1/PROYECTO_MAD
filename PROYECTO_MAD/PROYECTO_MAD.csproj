@@ -73,6 +73,7 @@
     <Compile Include="Entidad\Hotel.cs" />
     <Compile Include="Entidad\Permiso.cs" />
     <Compile Include="Entidad\ReporteOcupacion.cs" />
+    <Compile Include="Entidad\ReporteVentas.cs" />
     <Compile Include="Entidad\Reservacion.cs" />
     <Compile Include="Entidad\Rol.cs" />
     <Compile Include="Entidad\TipoHabitacion.cs" />

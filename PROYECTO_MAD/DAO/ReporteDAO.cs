@@ -118,5 +118,94 @@ namespace PROYECTO_MAD.DAO
             }
             return reporte;
         }
+        public static List<ReporteVentas> ObtenerReporteVentas(int anio, int? idHotel, string ciudad)
+        {
+            List<ReporteVentas> reporte = new List<ReporteVentas>();
+            SqlConnection conexion = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                conexion = BDConexion.ObtenerConexion();
+                if (conexion == null) throw new Exception("DB Connection failed.");
+
+                string query = @"
+                -- Input Parameters
+                DECLARE @Anio INT = @AnioParam;
+                DECLARE @IdHotel INT = @IdHotelParam; -- Can be NULL
+                DECLARE @Ciudad NVARCHAR(80) = @CiudadParam;
+
+                -- 1. Generate all months of the year
+                WITH MesesDelAnio AS (
+                    SELECT 1 AS Mes UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+                    SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL
+                    SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
+                ),
+                -- 2. Get hotels matching the filter
+                HotelesFiltrados AS (
+                    SELECT HT.IdHotel, HT.Nombre AS NombreHotel, D.Ciudad
+                    FROM HOTEL HT
+                    INNER JOIN DOMICILIO D ON HT.IdDomicilio = D.IdDomicilio
+                    WHERE (@IdHotel IS NULL OR HT.IdHotel = @IdHotel)
+                      AND D.Ciudad = @Ciudad
+                ),
+                -- 3. Calculate SUM of sales from FACTURAS per month/hotel
+                VentasMensuales AS (
+                    SELECT
+                        F.IdHotel,
+                        MONTH(F.FechaEmision) AS MesVenta,
+                        SUM(F.TotalHospedaje) AS TotalVentasMes -- Use TotalHospedaje as per requirement
+                    FROM FACTURAS F
+                    INNER JOIN HotelesFiltrados HF ON F.IdHotel = HF.IdHotel -- Implicitly filters by city/hotel
+                    WHERE YEAR(F.FechaEmision) = @Anio
+                      AND F.Estatus = 'Pagada' -- Consider only paid invoices
+                    GROUP BY F.IdHotel, MONTH(F.FechaEmision)
+                )
+                -- 4. Final Combination
+                SELECT
+                    HF.Ciudad,
+                    HF.NombreHotel,
+                    FORMAT(DATEFROMPARTS(@Anio, M.Mes, 1), 'yyyy-MM') AS AnioMes,
+                    ISNULL(VM.TotalVentasMes, 0) AS IngresosHospedaje,
+                    ISNULL(VM.TotalVentasMes, 0) AS IngresosTotales -- Same value as per simple requirement
+                FROM HotelesFiltrados HF
+                CROSS JOIN MesesDelAnio M -- Combine each hotel with every month
+                LEFT JOIN VentasMensuales VM ON HF.IdHotel = VM.IdHotel AND M.Mes = VM.MesVenta -- Match sales data
+                ORDER BY HF.NombreHotel, AnioMes;
+            ";
+
+                SqlCommand comando = new SqlCommand(query, conexion);
+                comando.Parameters.AddWithValue("@AnioParam", anio);
+                if (idHotel.HasValue)
+                    comando.Parameters.AddWithValue("@IdHotelParam", idHotel.Value);
+                else
+                    comando.Parameters.AddWithValue("@IdHotelParam", DBNull.Value);
+                comando.Parameters.AddWithValue("@CiudadParam", ciudad);
+
+                reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ReporteVentas item = new ReporteVentas();
+                    item.Ciudad = reader.GetString(reader.GetOrdinal("Ciudad"));
+                    item.NombreHotel = reader.GetString(reader.GetOrdinal("NombreHotel"));
+                    item.AnioMes = reader.GetString(reader.GetOrdinal("AnioMes"));
+                    item.IngresosHospedaje = reader.GetDecimal(reader.GetOrdinal("IngresosHospedaje"));
+                    item.IngresosTotales = reader.GetDecimal(reader.GetOrdinal("IngresosTotales"));
+                    reporte.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error en ReporteDAO.ObtenerReporteVentas: " + ex.ToString());
+                throw;
+            }
+            finally
+            {
+                reader?.Close();
+                conexion?.Close();
+            }
+            return reporte;
+        }
     }
 }
