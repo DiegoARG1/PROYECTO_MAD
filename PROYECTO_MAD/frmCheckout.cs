@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QuestPDF.Fluent;
 
 namespace PROYECTO_MAD
 {
@@ -52,79 +53,34 @@ namespace PROYECTO_MAD
             cbMetodoPago.Items.Add("Efectivo");
             cbMetodoPago.SelectedIndex = -1;
         }
-        private void GenerarArchivoFactura(Factura factura, string numeroFactura)
+        private string GenerarArchivoFactura(Factura factura, string numeroFactura)
         {
-            if (reservacionActual == null) return;
-
-            StringBuilder sb = new StringBuilder();
-            int noches = Math.Max(1, (int)(reservacionActual.FechaSalida.Date - reservacionActual.FechaEntrada.Date).TotalDays);
-
-            sb.AppendLine("================================================");
-            sb.AppendLine("              FACTURA HOTEL                     ");
-            sb.AppendLine("================================================");
-            sb.AppendLine($"Factura Nro: {numeroFactura}");
-            sb.AppendLine($"Fecha Emisión: {DateTime.Now:dd/MM/yyyy HH:mm}");
-            sb.AppendLine($"Código Reserva: {reservacionActual.IdReservacion.ToString().ToUpper()}");
-            sb.AppendLine();
-            sb.AppendLine("--- Hotel ---");
-            sb.AppendLine($"{reservacionActual.NombreHotel}");
-            sb.AppendLine();
-            sb.AppendLine("--- Cliente ---");
-            sb.AppendLine($"{reservacionActual.NombreCliente}");
-            sb.AppendLine($"RFC: {reservacionActual.RFCCliente}");
-            sb.AppendLine();
-            sb.AppendLine("--- Estancia ---");
-            sb.AppendLine($"Entrada: {reservacionActual.FechaEntrada:dd/MM/yyyy}");
-            sb.AppendLine($"Salida: {DateTime.Today:dd/MM/yyyy}");
-            sb.AppendLine($"Noches: {noches}");
-            sb.AppendLine();
-            sb.AppendLine("--- Cargos ---");
-            sb.AppendLine("Concepto".PadRight(40) + "| Monto");
-            sb.AppendLine("----------------------------------------|-----------");
-
-            var detallesAgrupados = reservacionActual.Detalles
-                                        .GroupBy(d => new { d.NivelTipoHabitacion, d.PrecioNoche })
-                                        .Select(g => new {
-                                            Tipo = g.Key.NivelTipoHabitacion,
-                                            Precio = g.Key.PrecioNoche,
-                                            Cantidad = g.Count(),
-                                            TotalPersonas = g.Sum(d => d.NroPersonas)
-                                        });
-
-            foreach (var grupo in detallesAgrupados)
+            // Asegúrate de que la reservación actual (con todos los datos) esté disponible
+            if (reservacionActual == null)
             {
-                decimal costoTipo = noches * grupo.TotalPersonas * grupo.Precio;
-                string concepto = $"{grupo.Cantidad}x {grupo.Tipo} ({grupo.TotalPersonas} pers.)";
-                sb.AppendLine(concepto.PadRight(40) + $"| {costoTipo:C2}");
+                throw new InvalidOperationException("No hay datos de reservación para generar la factura.");
             }
-            sb.AppendLine("----------------------------------------|-----------");
-            sb.AppendLine("Total Hospedaje:".PadRight(40) + $"| {factura.TotalHospedaje:C2}");
-            sb.AppendLine("Anticipo Pagado:".PadRight(40) + $"| {factura.MontoAnticipo:C2}");
-            sb.AppendLine("========================================|===========");
-            sb.AppendLine("MONTO PAGADO HOY:".PadRight(40) + $"| {factura.MontoPendientePagado:C2}");
-            sb.AppendLine("========================================|===========");
-            sb.AppendLine();
-            sb.AppendLine($"Forma de Pago: {factura.FormaPago}");
-            sb.AppendLine();
-            sb.AppendLine("¡Gracias por su preferencia!");
 
+            // 1. Define la ruta (usando Mis Documentos para evitar problemas de permisos)
+            string carpetaFacturas = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FacturasHotelDemo");
+            Directory.CreateDirectory(carpetaFacturas); // Crea la carpeta si no existe
 
-            // Guardar Archivo
+            // 2. Define el nombre del archivo
+            string nombreArchivo = $"Factura_{numeroFactura}_{reservacionActual.NombreCliente.Replace(" ", "")}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            string rutaCompleta = Path.Combine(carpetaFacturas, nombreArchivo);
+
+            // 3. Crea la instancia del documento PDF (la clase que hicimos)
+            var documento = new FacturaPDFDocument(factura, reservacionActual, numeroFactura);
+
+            // 4. Genera el archivo PDF
             try
             {
-                string carpetaFacturas = Path.Combine(Application.StartupPath, "Facturas");
-                Directory.CreateDirectory(carpetaFacturas);
-
-                string nombreArchivo = $"Factura_{numeroFactura}_{reservacionActual.NombreCliente.Replace(" ", "")}_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
-                string rutaCompleta = Path.Combine(carpetaFacturas, nombreArchivo);
-
-                File.WriteAllText(rutaCompleta, sb.ToString());
-
-                MessageBox.Show($"Factura guardada en: {rutaCompleta}", "Archivo Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                documento.GeneratePdf(rutaCompleta);
+                return rutaCompleta; // Devuelve la ruta donde se guardó
             }
             catch (IOException ioEx)
             {
-                throw new Exception("No se pudo escribir el archivo de la factura. Verifique permisos o si el archivo está en uso.", ioEx);
+                throw new Exception($"No se pudo escribir el archivo PDF en '{rutaCompleta}'. Verifique permisos o si está en uso.", ioEx);
             }
         }
 
@@ -212,7 +168,7 @@ namespace PROYECTO_MAD
                 foreach (var grupo in detallesAgrupados)
                 {
                     // Calcula costo: Noches * TotalPersonasEnTipo * PrecioNochePersona
-                    decimal costoTipo = nochesEstancia * grupo.TotalPersonas * grupo.Precio;
+                    decimal costoTipo = nochesEstancia * grupo.Cantidad * grupo.Precio;
                     string concepto = $"Hospedaje: {grupo.Cantidad} x {grupo.Tipo} ({nochesEstancia} Noches, {grupo.TotalPersonas} Personas)";
                     dgvDetalleFactura.Rows.Add(concepto, costoTipo);
                     totalHospedajeCalculado += costoTipo;
@@ -272,6 +228,7 @@ namespace PROYECTO_MAD
             factura.IdHotel = reservacionActual.IdHotel;
             factura.IdCliente = reservacionActual.IdCliente;
             factura.IdUsuario = this.usuarioLogueado.IdUsuario; // Usuario que hace el checkout
+            factura.FechaEmision = DateTime.Now;
             factura.TotalHospedaje = totalHospedaje;
             factura.MontoAnticipo = reservacionActual.Anticipo;
             factura.MontoPendientePagado = montoPendiente;
@@ -313,18 +270,28 @@ namespace PROYECTO_MAD
                 // Si todo ok, COMMIT
                 transaction.Commit();
 
+                string mensajeExitoDB = $"¡Check-Out realizado con éxito!\nFactura Nro: {nuevaFacturaId} registrada en la base de datos.";
+                string rutaArchivoGenerado = "";
+
                 // Generar Archivo de Texto (despues del Commit)
                 try
                 {
-                    GenerarArchivoFactura(factura, nuevaFacturaId.ToString());
+                    // Llama al NUEVO método de PDF
+                    rutaArchivoGenerado = GenerarArchivoFactura(factura, nuevaFacturaId.ToString());
+
+                    MessageBox.Show(mensajeExitoDB + $"\n\nFactura PDF generada en:\n{rutaArchivoGenerado}",
+                                    "Check-Out Confirmado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Opcional: Abrir la carpeta
+                    System.Diagnostics.Process.Start("explorer.exe", Path.GetDirectoryName(rutaArchivoGenerado));
                 }
-                catch (Exception fileEx)
+                catch (Exception fileEx) // Captura error específico del PDF
                 {
-                    MessageBox.Show("La operación en la base de datos fue exitosa, pero ocurrió un error al generar el archivo de texto de la factura:\n" + fileEx.Message,
-                                    "Error de Archivo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(mensajeExitoDB +
+                                    "\n\nADVERTENCIA:\nOcurrió un error al generar el archivo PDF de la factura:\n" + fileEx.Message,
+                                    "Error al Generar PDF", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
-                MessageBox.Show($"¡Check-Out realizado con éxito!\nFactura Nro: {nuevaFacturaId} generada.", "Check-Out Confirmado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
 
             }

@@ -28,6 +28,11 @@ namespace PROYECTO_MAD.Entidad
         public string NombreHotel { get; set; }
         public string RFCCliente { get; set; }
 
+        public string HotelCalle { get; set; }
+        public string HotelNumero { get; set; }
+        public string HotelCiudad { get; set; }
+        public string HotelCodigoPostal { get; set; }
+
         public Reservacion()
         {
             Detalles = new List<DetalleReservacion>();

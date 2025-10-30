@@ -328,11 +328,14 @@ namespace PROYECTO_MAD.DAO
             SELECT R.IdReservacion, R.IdCliente, R.IdHotel, R.FechaEntrada, R.FechaSalida,
                    R.Anticipo, R.Estado,
                    C.Nombre AS NombreCliente, C.Apellidos AS ApellidosCliente, C.RFC AS RFCCliente,
-                   H.Nombre AS NombreHotel
+                   H.Nombre AS NombreHotel,
+                   -- Añade las columnas del domicilio del hotel
+                   D.Calle AS HotelCalle, D.Numero AS HotelNumero, D.Ciudad AS HotelCiudad, D.CodigoPostal AS HotelCP
             FROM RESERVACION R
             INNER JOIN CLIENTE C ON R.IdCliente = C.IdCliente
             INNER JOIN HOTEL H ON R.IdHotel = H.IdHotel
-            WHERE R.IdReservacion = @IdReservacion AND R.Estado = 'En-Curso'; -- Solo 'En-Curso'
+            INNER JOIN DOMICILIO D ON H.IdDomicilio = D.IdDomicilio -- Ya teníamos este JOIN
+            WHERE R.IdReservacion = @IdReservacion AND R.Estado = 'En-Curso';
                 ";
                 SqlCommand comandoPrincipal = new SqlCommand(queryPrincipal, conexion);
                 comandoPrincipal.Parameters.AddWithValue("@IdReservacion", idReservacion);
@@ -352,6 +355,11 @@ namespace PROYECTO_MAD.DAO
                     reservacion.NombreCliente = reader.GetString(reader.GetOrdinal("NombreCliente")) + " " + reader.GetString(reader.GetOrdinal("ApellidosCliente"));
                     reservacion.NombreHotel = reader.GetString(reader.GetOrdinal("NombreHotel"));
                     reservacion.RFCCliente = reader.GetString(reader.GetOrdinal("RFCCliente"));
+
+                    reservacion.HotelCalle = reader.GetString(reader.GetOrdinal("HotelCalle"));
+                    reservacion.HotelNumero = reader.GetString(reader.GetOrdinal("HotelNumero"));
+                    reservacion.HotelCiudad = reader.GetString(reader.GetOrdinal("HotelCiudad"));
+                    reservacion.HotelCodigoPostal = reader.GetString(reader.GetOrdinal("HotelCP"));
                 }
                 reader.Close(); // Cierra el primer reader
 
